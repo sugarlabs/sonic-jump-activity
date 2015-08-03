@@ -127,17 +127,23 @@ class game:
         score=0
         
         
-        running=[[8,11],[50,7],[93,9],[137,9],[184,10],[215,8],[249,10]]
+        #running  7 sprites
         
-        runningwd=[[40,33],[41,37],[39,36],[40,33],[27,34],[27,35],[24,32]]
+        running=[[8,11],[50,7],[93,9],[137,9]]
+        
+        runningwd=[[40,33],[41,37],[39,36],[40,33]]
         
         
-        jumping=[[10,55],[39,59],[64,54],[95,58],[122,57],[156,57],[187,57],\
-                 [218,58],[249,57],[284,54],[321,51],[355,51],[390,63],\
-                 [427,65],[473,67]]
+        stop=[[184,10],[215,8],[249,10]]
+        stopwd=[[27,34],[27,35],[24,32]]
         
-        jumpingwd=[[23,38],[23,22],[26,32].[24,25],[29,26],[26,27],[26,29],\
-                   [24,24],[30,26],[26,32],[26,37],[30,37],[29,32],[28,29],[24,26]]
+        
+        #jumping 15 sprites
+        
+        jumping=[[10,55],[39,59],[64,54],[95,58],[122,57],[156,57],[187,57],[218,58],[249,57],[284,54],[321,51],[355,51],[390,63],[427,65],[473,67]]
+        
+        jumpingwd=[[23,38],[23,22],[26,32],[24,25],\
+            [29,26],[26,27],[26,29],[24,24],[30,26],[26,32],[26,37],[30,37],[29,32],[28,29],[24,26]]
         
         
     
@@ -163,6 +169,11 @@ class game:
             fruitscore = pickle.load(input)
             fruitscore=pickle.load(input)
         
+        
+        i=0
+        
+        j=0
+        k=0
         
         
         
@@ -197,8 +208,17 @@ class game:
             
             
             
+            i+=1
             
-            
+            if(i>50):
+                i=0
+                
+                
+            if(i%5==0):
+                k+=1
+                if(k>=4):
+                    k=0
+                
             
             
             
@@ -213,7 +233,7 @@ class game:
 
             #screen = pygame.display.set_mode((SCREEN_X, SCREEN_Y)) #Create the screen
             
-            sprite.set_clip(pygame.Rect(SPRT_RECT_X, SPRT_RECT_Y, LEN_SPRT_X, LEN_SPRT_Y)) #Locate the sprite you want
+            sprite.set_clip(pygame.Rect(running[k][0], running[k][1],runningwd[k][0], runningwd[k][1])) #Locate the sprite you want
             draw_me = sprite.subsurface(sprite.get_clip()) #Extract the sprite you want
 
             #backdrop = pygame.Rect(0,0,350,768) #Create the whole screen so you can draw on it
