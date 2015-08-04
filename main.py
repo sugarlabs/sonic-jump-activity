@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Stick Hero
+# Sonic Thief
 # Copyright (C) 2015  Utkarsh Tiwari
 #
 # This program is free software: you can redistribute it and/or modify
@@ -116,6 +116,9 @@ class game:
         
         
         
+        color=[(153,50,204),(255,105,180),(255,215,0),(0,255,127),(30,144,255),(255,69,0)]
+        
+        
         
         
         # VARIABLE INITIALIZATION
@@ -134,16 +137,25 @@ class game:
         runningwd=[[40,33],[41,37],[39,36],[40,33]]
         
         
-        stop=[[184,10],[215,8],[249,10]]
-        stopwd=[[27,34],[27,35],[24,32]]
+        stops=   [10,55]
+        stopwd= [23,38]
         
         
         #jumping 15 sprites
         
-        jumping=[[10,55],[39,59],[64,54],[95,58],[122,57],[156,57],[187,57],[218,58],[249,57],[284,54],[321,51],[355,51],[390,63],[427,65],[473,67]]
+        jumping=[[39,59],[64,54],[95,58],[122,57],[156,57],[187,57],\
+            [218,58],[249,57]]
         
-        jumpingwd=[[23,38],[23,22],[26,32],[24,25],\
-            [29,26],[26,27],[26,29],[24,24],[30,26],[26,32],[26,37],[30,37],[29,32],[28,29],[24,26]]
+        jumpingwd=[[23,22],[26,32],[24,25],\
+            [29,26],[26,27],[26,29],[24,24],[30,26]]
+        
+        falls=[[284,54],[321,51],[355,51]]
+        
+        fallswd=[[26,32],[26,37],[30,37]]
+        
+        touchs=[[390,63],[427,65],[473,67]]
+        touchswd=[[29,32],[28,29],[24,26]]
+        
         
         
     
@@ -175,8 +187,30 @@ class game:
         j=0
         k=0
         
+        keyinit=0
         
         
+        run=1
+        jump=stop=0
+        
+        fall=touch=0
+        
+        r=s=j=0
+        
+        frame=10
+        
+        
+        sonicy=410
+        
+        inity=410
+        velocity=0
+        distance=100
+        
+        time=0
+        fall=0
+        
+        
+        f=t=0
         
         #lastpillardist=pillar2x-457
         
@@ -213,33 +247,155 @@ class game:
             if(i>50):
                 i=0
                 
+            
+            
+            
                 
-            if(i%5==0):
-                k+=1
-                if(k>=4):
-                    k=0
+            if(run==1):
+                if(i%frame==0):    
+                    r+=1
+                    if(r>=4):
+                        r=0
+            
+            
+                
+            elif(jump==1):
+                if(i%frame==0):
+                    j+=1
+                    if(j>=8):
+                        j=0
+                        
+                        
+            elif(fall==1):
+                if(i%frame==0):
+                    if(f<2):
+                        f+=1
+                        
+                        
+            elif(touch==1):
+                if(i%frame==0):
+                    if(t<2):
+                        t+=1
+                    
+                        
+                        
+                        
+                        
+                        
+            
+            
+            
+            
+            
+            if(stop==1 or jump==1):
+                time+=1
+                if(time==10):
+                    jump=1
+                    stop=0
+                
+                velocity=0.04*time*time
+                sonicy-=velocity
                 
             
+            if(fall==1):
+                
+                time+=1
+                velocity=0.04*time*time
+                sonicy+=velocity
+            
+            
+            
+            
+            if(sonicy<=(inity-distance) and jump==1):
+                jump=0
+                fall=1
+                time=0
+            
+            
+            
+            
+                
+            #Keyboard Hit check
+            
+            
+            if event.type==pygame.KEYDOWN and event.key==273 and keyinit==0 :
+            #jump.play(0)
+                
+                #keypressflag=1
+                keyinit=1
+                #stickgrowsound=1
+                
+                
+                run=0
+                stop=1
+                
+                #print "help"
+                
+                
+                            
+            if event.type==pygame.KEYUP  and event.key==273 and keyinit==1:
+                flag=1
+                    
+                #stickgrow.stop()
+                #kick.stop()
+                #kick.play()
+                
+            
+            #print stop
+                    
+            
+            
+            if(run==1):
+                
+                sprite.set_clip(pygame.Rect(running[r][0], running[r][1],\
+                    runningwd[r][0], runningwd[r][1])) 
+            
+            
+            
+            elif(stop==1):
+                sprite.set_clip(pygame.Rect(stops[0], stops[1],\
+                stopwd[0], stopwd[1])) 
+            
+            
+              
+            
+            elif(jump==1):
+                sprite.set_clip(pygame.Rect(jumping[j][0], jumping[j][1],\
+                jumpingwd[j][0], jumpingwd[j][1]))
+                
+                
+                
+            elif(fall==1):
+                sprite.set_clip(pygame.Rect(falls[f][0], falls[f][1],\
+                fallswd[f][0], fallswd[f][1]))     
+                
+            
+            elif(touch==1):
+                sprite.set_clip(pygame.Rect(touchs[t][0], touchs[t][1],\
+                touchswd[t][0], touchswd[t][1])) 
+                
+                
+                
+                
+            # Colored Pillars Disp    
+            
+            
+            
+            pygame.draw.rect(gameDisplay,color[3],(350,454,490,768))
+            
+            
+            
+            #  Sonic Display
             
             
 
-            SPRT_RECT_X=4 
-            SPRT_RECT_Y=67  
-            #This is where the sprite is found on the sheet
-
-            LEN_SPRT_X=24
-            LEN_SPRT_Y=33
-            #This is the length of the sprite
-
-            #screen = pygame.display.set_mode((SCREEN_X, SCREEN_Y)) #Create the screen
-            
-            sprite.set_clip(pygame.Rect(running[k][0], running[k][1],runningwd[k][0], runningwd[k][1])) #Locate the sprite you want
             draw_me = sprite.subsurface(sprite.get_clip()) #Extract the sprite you want
 
             #backdrop = pygame.Rect(0,0,350,768) #Create the whole screen so you can draw on it
 
-            gameDisplay.blit(draw_me,(355,422)) #'Blit' on the backdrop
-            #pygame.display.flip()
+            gameDisplay.blit(pygame.transform.scale(draw_me,\
+                
+            (draw_me.get_width()+10,draw_me.get_height()+10)),(355,sonicy)) #'Blit' on the backdrop
             
             
             
@@ -247,9 +403,7 @@ class game:
             
             
             
-            
-            
-            
+            # BLACK RECTANGLES DISPLAY
                       
             pygame.draw.rect(gameDisplay,black,(0,0,350,768))    
                     
