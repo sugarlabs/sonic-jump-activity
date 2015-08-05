@@ -197,22 +197,41 @@ class game:
         
         r=s=j=0
         
-        frame=10
+        frame=5     # FRame rate
         
         
         sonicy=410
         
         inity=410
         velocity=0
-        distance=100
+        distance=150
         
         time=0
         fall=0
+        down=0
+        flag1=0
         
         
         f=t=0
         
-        #lastpillardist=pillar2x-457
+        
+        
+        
+        jumpf=fallf=stopf=0   
+        
+        accf=10
+        
+        
+        
+        initialvelocity=10
+        
+        #distance=(initialvelocity**2)/(2*10)
+        
+        timefactor=0.03
+        
+        step=0
+        
+        velocity=10
         
         
         # GAME LOOP BEGINS !!!
@@ -287,29 +306,54 @@ class game:
             
             
             
-            if(stop==1 or jump==1):
+            if(stopf==1 or jumpf==1):
                 time+=1
-                if(time==10):
+                if(time>2):
                     jump=1
                     stop=0
+                    #keyinit=0
                 
-                velocity=0.04*time*time
+                velocity=initialvelocity-(accf*(time/18))
+                
+                #print (accf*(time/100))
                 sonicy-=velocity
                 
+                
             
-            if(fall==1):
+            if(fallf==1):
                 
                 time+=1
-                velocity=0.04*time*time
+                if(time>5):
+                    fall=1
+                    jump=0
+                velocity=accf*(time/18)
                 sonicy+=velocity
             
             
             
+            #print velocity
             
-            if(sonicy<=(inity-distance) and jump==1):
-                jump=0
-                fall=1
+            
+            pygame.draw.circle(gameDisplay,black, (352,260) ,3, 3)
+            
+            '''
+            if(sonicy<=(inity-distance) and (jumpf==1 or stopf==1) and flag1==0):
+                fallf=1
+                jumpf=0
+                stopf=0
+                
+                
                 time=0
+                flag1=1
+            '''
+            
+            if(velocity<=0 and flag1==0):
+                fallf=1
+                jumpf=0
+                stopf=0
+                
+                time=0
+                flag1=1
             
             
             
@@ -318,23 +362,44 @@ class game:
             #Keyboard Hit check
             
             
-            if event.type==pygame.KEYDOWN and event.key==273 and keyinit==0 :
-            #jump.play(0)
+            if event.type==pygame.KEYDOWN and event.key==273 and keyinit==0 and step<2 :
                 
-                #keypressflag=1
                 keyinit=1
-                #stickgrowsound=1
+               
+                #print "hl"
+                #print step
                 
                 
-                run=0
-                stop=1
+                if(step==0):    #First jump     
+                    run=0
+                    stopf=1
+                    stop=1
+                    
+                    
+                elif(step==1):      #Second Jump
+                    jump=1
+                    jumpf=1
+                    fallf=0
+                    flag1=0
+                    #time=0
+                    #inity=sonicy
+                    initialvelocity=-velocity
+                    #distance=distance/2
+                    
+                
+                step+=1
+                
+                
+                
+                
+                
                 
                 #print "help"
                 
                 
                             
             if event.type==pygame.KEYUP  and event.key==273 and keyinit==1:
-                flag=1
+                keyinit=0
                     
                 #stickgrow.stop()
                 #kick.stop()
