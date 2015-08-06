@@ -219,11 +219,11 @@ class game:
         
         jumpf=fallf=stopf=0   
         
-        accf=10
+        accf=9
         
         
         
-        initialvelocity=10
+        initialvelocity=11
         
         #distance=(initialvelocity**2)/(2*10)
         
@@ -232,6 +232,20 @@ class game:
         step=0
         
         velocity=10
+        
+        
+        
+        
+        
+        #pillar coordinte x
+        
+        
+        platx=350
+        pillar1x=800
+        
+        
+        
+        
         
         
         # GAME LOOP BEGINS !!!
@@ -258,6 +272,9 @@ class game:
             #gameDisplay.blit(sprite,(350,50))
             
             
+            
+            
+            454
             
             
             
@@ -307,11 +324,17 @@ class game:
             
             
             if(stopf==1 or jumpf==1):
-                time+=1
-                if(time>2):
+                
+                if(time<41):          
+                    time+=1
+                if(time>5 and time<=30):
                     jump=1
                     stop=0
                     #keyinit=0
+                if(time>30):
+                    fall=1
+                    jump=0    
+                    
                 
                 velocity=initialvelocity-(accf*(time/18))
                 
@@ -320,40 +343,9 @@ class game:
                 
                 
             
-            if(fallf==1):
-                
-                time+=1
-                if(time>5):
-                    fall=1
-                    jump=0
-                velocity=accf*(time/18)
-                sonicy+=velocity
             
             
             
-            #print velocity
-            
-            
-            pygame.draw.circle(gameDisplay,black, (352,260) ,3, 3)
-            
-            '''
-            if(sonicy<=(inity-distance) and (jumpf==1 or stopf==1) and flag1==0):
-                fallf=1
-                jumpf=0
-                stopf=0
-                
-                
-                time=0
-                flag1=1
-            '''
-            
-            if(velocity<=0 and flag1==0):
-                fallf=1
-                jumpf=0
-                stopf=0
-                
-                time=0
-                flag1=1
             
             
             
@@ -366,7 +358,7 @@ class game:
                 
                 keyinit=1
                
-                #print "hl"
+                print "hl"
                 #print step
                 
                 
@@ -378,12 +370,15 @@ class game:
                     
                 elif(step==1):      #Second Jump
                     jump=1
-                    jumpf=1
-                    fallf=0
-                    flag1=0
+                    
+                    initialvelocity=8
+                    time=0
+                    #jumpf=1
+                    #fallf=0
+                    #flag1=0
                     #time=0
                     #inity=sonicy
-                    initialvelocity=-velocity
+                    #initialvelocity=-velocity
                     #distance=distance/2
                     
                 
@@ -446,7 +441,26 @@ class game:
             
             
             
-            pygame.draw.rect(gameDisplay,color[3],(350,454,490,768))
+            if(platx>-495):
+                platx-=4
+                
+              
+            if(pillar1x>-105):
+                pillar1x-=4
+            
+            
+            #print pillar1x
+            
+            
+            
+            pygame.draw.rect(gameDisplay,color[3],(platx,454,200,768))
+            
+            pygame.draw.rect(gameDisplay,color[2],(pillar1x,0,100,200))
+            pygame.draw.rect(gameDisplay,color[2],(pillar1x,350,100,400))
+            
+            #pygame.draw.rect(gameDisplay,color[3],(pillar2x,454,490,768))
+            #pygame.draw.rect(gameDisplay,color[3],(pillar2x,454,490,768))
+            
             
             
             
