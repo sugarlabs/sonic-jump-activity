@@ -116,7 +116,8 @@ class game:
         
         
         
-        color=[(153,50,204),(255,105,180),(255,215,0),(0,255,127),(30,144,255),(255,69,0)]
+        color=[(153,50,204),(255,105,180),(255,215,0),\
+                (0,255,127),(30,144,255),(255,69,0)]
         
         
         
@@ -219,11 +220,11 @@ class game:
         
         jumpf=fallf=stopf=0   
         
-        accf=9
+        accf=0.2
         
         
         
-        initialvelocity=11
+        initialvelocity=10
         
         #distance=(initialvelocity**2)/(2*10)
         
@@ -239,12 +240,53 @@ class game:
         
         #pillar coordinte x
         
+        time1=0
+        
+        
+        chk=False
+        factor=-1
+        
+        
+        gap=150             # GAp for passage
+        array=[170,250,170,250]
+        pillardist=array[randint(0,1)]     #Distance between pillars
+        
+        
+        thick1=200          #Thicknesss of the pillars
+        
+        thick2=180  
+        
+        thick3=250
+        
         
         platx=350
-        pillar1x=800
+        pillar1x=840+pillardist
+        pillar2x=(pillar1x+thick1)+pillardist
+        
+        pillardist=array[randint(0,1)] 
+        
+        pillar3x=(pillar2x+thick2)+pillardist
+        
+        height1=200
+        height2=350
+        height3=400
         
         
         
+        
+        colorp=color[randint(0,5)]
+        color1=color[randint(0,5)]
+        while(color1==colorp):
+            color1=color[randint(0,5)]
+        
+        color2=color[randint(0,5)]
+        while(color2==color1):
+            color2=color[randint(0,5)]
+         
+        
+        color3=color[randint(0,5)]
+        while(color3==color2):
+            color3=color[randint(0,5)]
         
         
         
@@ -319,27 +361,41 @@ class game:
                         
                         
             
+            #print str(jump)+str(fall)
             
-            
+            #print velocity
             
             
             if(stopf==1 or jumpf==1):
                 
-                if(time<41):          
-                    time+=1
-                if(time>5 and time<=30):
+                #if(time<45):          
+                time+=1
+                time1+=1
+                
+                if(velocity<=0 and chk==False):
+                    chk=not chk
+                    time=0
+                    
+                    factor*=-1
+                    
+                
+                    
+                if(time>5 and time1<=40):       #jump sprite show
                     jump=1
                     stop=0
                     #keyinit=0
-                if(time>30):
+                if(time1>40):               #fall sprite display
                     fall=1
-                    jump=0    
+                    jump=0  
                     
                 
-                velocity=initialvelocity-(accf*(time/18))
+                #velocity=initialvelocity+factor*(accf*(time/22))
+                velocity=initialvelocity+(factor*accf*(time))
                 
                 #print (accf*(time/100))
-                sonicy-=velocity
+                #sonicy+=factor*velocity
+                sonicy=sonicy+factor*velocity
+                
                 
                 
             
@@ -358,7 +414,7 @@ class game:
                 
                 keyinit=1
                
-                print "hl"
+                #print "hl"
                 #print step
                 
                 
@@ -371,9 +427,13 @@ class game:
                 elif(step==1):      #Second Jump
                     jump=1
                     
-                    initialvelocity=8
+                    initialvelocity=7
                     time=0
+                    time1=0
+                    chk=False
+                    
                     #jumpf=1
+                    factor=-1
                     #fallf=0
                     #flag1=0
                     #time=0
@@ -439,29 +499,78 @@ class game:
                 
             # Colored Pillars Disp    
             
-            
-            
+            if(pillar3x>700):
+                pillar3rd=pillar3x
+                pillar3thick=thick3
+                lastcolor=color3
+                
+            elif(pillar2x>700):
+                pillar3rd=pillar2x
+                pillar3thick=thick2
+                lastcolor=color2
+                
+            elif(pillar1x>700):
+                pillar3rd=pillar1x
+                pillar3thick=thick1
+                lastcolor=color1
+                
+                
+                
             if(platx>-495):
                 platx-=4
                 
-              
-            if(pillar1x>-105):
-                pillar1x-=4
+                
+            if(pillar1x<350-thick1):
+                pillar1x=pillar3rd+pillar3thick+array[randint(0,3)]
+                height1=randint(150,400)
+                thick1=randint(100,250)
+                color1=color[randint(0,5)]
+                while(color1==lastcolor):
+                    color1=color[randint(0,5)]
+                
+                
+                
+                    
+            if(pillar2x<=350-thick2):
+                pillar2x=pillar3rd+pillar3thick+array[randint(0,3)]
+                height2=randint(150,400)
+                thick2=randint(100,250)
+                color2=color[randint(0,5)]
+                while(color2==lastcolor):
+                    color2=color[randint(0,5)]
+            
+            if(pillar3x<=350-thick3):
+                pillar3x=pillar3rd+pillar3thick+array[randint(0,3)]
+                height3=randint(150,400)
+                thick3=randint(100,250)
+                color3=color[randint(0,5)]
+                while(color3==lastcolor):
+                    color3=color[randint(0,5)]
+            
+            
+            
+            
+            pillar1x-=4
+            
+            pillar2x-=4
+            
+            pillar3x-=4
             
             
             #print pillar1x
             
             
             
-            pygame.draw.rect(gameDisplay,color[3],(platx,454,200,768))
+            pygame.draw.rect(gameDisplay,colorp,(platx,454,490,768))
             
-            pygame.draw.rect(gameDisplay,color[2],(pillar1x,0,100,200))
-            pygame.draw.rect(gameDisplay,color[2],(pillar1x,350,100,400))
+            pygame.draw.rect(gameDisplay,color1,(pillar1x,0,thick1,height1))
+            pygame.draw.rect(gameDisplay,color1,(pillar1x,height1+gap,thick1,768))
             
-            #pygame.draw.rect(gameDisplay,color[3],(pillar2x,454,490,768))
-            #pygame.draw.rect(gameDisplay,color[3],(pillar2x,454,490,768))
+            pygame.draw.rect(gameDisplay,color2,(pillar2x,0,thick2,height2))
+            pygame.draw.rect(gameDisplay,color2,(pillar2x,height2+gap,thick2,768))
             
-            
+            pygame.draw.rect(gameDisplay,color3,(pillar3x,0,thick3,height3))
+            pygame.draw.rect(gameDisplay,color3,(pillar3x,height3+gap,thick3,768))
             
             
             #  Sonic Display
@@ -472,9 +581,9 @@ class game:
 
             #backdrop = pygame.Rect(0,0,350,768) #Create the whole screen so you can draw on it
 
-            gameDisplay.blit(pygame.transform.scale(draw_me,\
+            #gameDisplay.blit(pygame.transform.scale(draw_me,\
                 
-            (draw_me.get_width()+10,draw_me.get_height()+10)),(355,sonicy)) #'Blit' on the backdrop
+            #(draw_me.get_width()+10,draw_me.get_height()+10)),(355,sonicy)) #'Blit' on the backdrop
             
             
             
@@ -484,9 +593,12 @@ class game:
             
             # BLACK RECTANGLES DISPLAY
                       
-            pygame.draw.rect(gameDisplay,black,(0,0,350,768))    
+            pygame.draw.line(gameDisplay,black,(350,0),(350,768), 1)          
+            pygame.draw.line(gameDisplay,black,(840,0),(840,768), 1)           
+                      
+            #pygame.draw.rect(gameDisplay,black,(0,0,350,768))    
                     
-            pygame.draw.rect(gameDisplay,black,(840,0,693,768))
+            #pygame.draw.rect(gameDisplay,black,(840,0,693,768))
             
             
             
