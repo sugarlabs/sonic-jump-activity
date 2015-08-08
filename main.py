@@ -224,11 +224,11 @@ class game:
         
         
         
-        initialvelocity=10
+        initialvelocity=9
         
         #distance=(initialvelocity**2)/(2*10)
         
-        timefactor=0.03
+        timefactor=0.02
         
         step=0
         
@@ -271,7 +271,7 @@ class game:
         height2=350
         height3=400
         
-        
+        speed=4
         
         
         colorp=color[randint(0,5)]
@@ -368,9 +368,9 @@ class game:
             
             if(stopf==1 or jumpf==1):
                 
-                #if(time<45):          
-                time+=1
-                time1+=1
+                if(time<45):          
+                    time+=1
+                    time1+=1
                 
                 if(velocity<=0 and chk==False):
                     chk=not chk
@@ -398,6 +398,8 @@ class game:
                 
                 
                 
+            
+            
             
             
             
@@ -516,8 +518,7 @@ class game:
                 
                 
                 
-            if(platx>-495):
-                platx-=4
+            
                 
                 
             if(pillar1x<350-thick1):
@@ -548,13 +549,14 @@ class game:
                     color3=color[randint(0,5)]
             
             
+            if(platx>-495):
+                platx-=speed        
             
+            pillar1x-=speed
             
-            pillar1x-=4
+            pillar2x-=speed
             
-            pillar2x-=4
-            
-            pillar3x-=4
+            pillar3x-=speed
             
             
             #print pillar1x
@@ -572,6 +574,20 @@ class game:
             pygame.draw.rect(gameDisplay,color3,(pillar3x,0,thick3,height3))
             pygame.draw.rect(gameDisplay,color3,(pillar3x,height3+gap,thick3,768))
             
+            rect1a=pygame.Rect(pillar1x,0,thick1,height1)
+            rect1b=pygame.Rect(pillar1x,height1+gap,thick1,768)
+            
+            rect2a=pygame.Rect(pillar2x,0,thick2,height2)
+            rect2b=pygame.Rect(pillar2x,height2+gap,thick2,768)
+            
+            rect3a=pygame.Rect(pillar3x,0,thick3,height3)
+            rect3b=pygame.Rect(pillar3x,height3+gap,thick3,768)
+            
+            
+            
+            
+            
+            
             
             #  Sonic Display
             
@@ -580,14 +596,50 @@ class game:
             draw_me = sprite.subsurface(sprite.get_clip()) #Extract the sprite you want
 
             #backdrop = pygame.Rect(0,0,350,768) #Create the whole screen so you can draw on it
-
-            #gameDisplay.blit(pygame.transform.scale(draw_me,\
+            
+            draw_me=pygame.transform.scale(draw_me,(draw_me.get_width()+10,draw_me.get_height()+10))
+            
+            
+            gameDisplay.blit(draw_me,(355,sonicy)) #'Blit' on the backdrop
+            
+            
+            
+            
+            
+            # TRACKER DOTS 
+            
+            topleft=(355,int(sonicy))
+            topright=(int(355+draw_me.get_width()),int(sonicy))
+            
+            bottomleft=(355,int(sonicy+draw_me.get_height()))
+            bottomright=(int(355+draw_me.get_width()),int(sonicy+draw_me.get_height()))
+            
                 
-            #(draw_me.get_width()+10,draw_me.get_height()+10)),(355,sonicy)) #'Blit' on the backdrop
+            
+            pygame.draw.circle(gameDisplay,black,topleft ,3, 2)
+            pygame.draw.circle(gameDisplay,black, topright ,3, 2)
+            pygame.draw.circle(gameDisplay,black, bottomleft ,3, 2)
+            pygame.draw.circle(gameDisplay,black, bottomright ,3, 2)
             
             
             
             
+            
+            
+            # Collision Detection
+            
+            if(pillar1x<360 and pillar1x>355):
+                pillarcolor=color1
+            
+            if(pillar2x<360 and pillar2x>355 ):
+                pillarcolor=color2
+                
+            
+            if(pillar1x<360 and pillar3x>355):
+                pillarcolor=color3
+                
+                
+                
             
             
             
@@ -596,9 +648,9 @@ class game:
             pygame.draw.line(gameDisplay,black,(350,0),(350,768), 1)          
             pygame.draw.line(gameDisplay,black,(840,0),(840,768), 1)           
                       
-            #pygame.draw.rect(gameDisplay,black,(0,0,350,768))    
+            pygame.draw.rect(gameDisplay,black,(0,0,350,768))    
                     
-            #pygame.draw.rect(gameDisplay,black,(840,0,693,768))
+            pygame.draw.rect(gameDisplay,black,(840,0,693,768))
             
             
             
