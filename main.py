@@ -274,7 +274,6 @@ class game:
         speed=4
         
         
-        pillar2nd=pillar2x
         
         
         colorp=color[randint(0,5)]
@@ -298,13 +297,16 @@ class game:
         pillar2ndthick=thick1
         pillar2ndheight=height1
             
+        platformdrop=False
+        
+        
+        pillartouch=pillar2nd
+        pillartouchthick=pillar2ndthick
         
         
         
         
-        
-        
-        
+        flag2=False
         
         
         
@@ -423,9 +425,21 @@ class game:
                 
                 
                 
+            if(fallf==1):
+                
+                time+=1
+                fall=1
+                jump=0
+                stop=0
+                run=0
+                
             
-            
-            
+                #velocity=initialvelocity+factor*(accf*(time/22))
+                velocity=initialvelocity+(factor*accf*(time))
+                
+                #print (accf*(time/100))
+                #sonicy+=factor*velocity
+                sonicy=sonicy+factor*velocity
             
             
             
@@ -449,6 +463,8 @@ class game:
                     run=0
                     stopf=1
                     stop=1
+                    fall=0
+                    fallf=0
                     
                     
                 elif(step==1):      #Second Jump
@@ -549,7 +565,7 @@ class game:
             if(pillar1x<350-thick1):
                 pillar1x=pillar3rd+pillar3thick+array[randint(0,3)]
                 height1=randint(150,400)
-                thick1=randint(100,250)
+                thick1=randint(100,200)
                 color1=color[randint(0,5)]
                 while(color1==lastcolor):
                     color1=color[randint(0,5)]
@@ -560,7 +576,7 @@ class game:
             if(pillar2x<=350-thick2):
                 pillar2x=pillar3rd+pillar3thick+array[randint(0,3)]
                 height2=randint(150,400)
-                thick2=randint(100,250)
+                thick2=randint(100,200)
                 color2=color[randint(0,5)]
                 while(color2==lastcolor):
                     color2=color[randint(0,5)]
@@ -568,7 +584,7 @@ class game:
             if(pillar3x<=350-thick3):
                 pillar3x=pillar3rd+pillar3thick+array[randint(0,3)]
                 height3=randint(150,400)
-                thick3=randint(100,250)
+                thick3=randint(100,200)
                 color3=color[randint(0,5)]
                 while(color3==lastcolor):
                     color3=color[randint(0,5)]
@@ -612,33 +628,32 @@ class game:
             
             
             
-            # 2nd pillar test
             
-            if(pillar1x<595 ):
-                pillarcolor=color1
-                pillar2nd=pillar1x
-                pillar2ndthick=thick1
-                pillar2ndheight=height1
                 
             
-            if(pillar2x<595 ):
-                pillarcolor=color2
-                pillar2nd=pillar2x
-                pillar2ndthick=thick2
-                pillar2ndheight=height2
+            # Pillar Touch test
+            '''
+            
+            if(350>=pill):
+                pillartouch=pillar1x
+                pillartouchheight=height1
+                pillartouchthick=thick1
+                
+            
+            if(pillar2x>350 and pillar2x<=355):
+                pillartouch=pillar2x
+                pillartouchheight=height2
+                pillartouchthick=thick2
+                
+            
+            if(pillar3x>350 and pillar3x<=355):
+                pillartouch=pillar3x
+                pillartouchheight=height3
+                pillartouchthick=thick3
+                
+            '''    
                 
                 
-            
-            
-            
-            if(pillar3x<595):
-                pillarcolor=color3
-                pillar2nd=pillar3x
-                pillar2ndthick=thick3
-                pillar2ndheight=height3
-            
-            
-            
             #  Sonic Display
             
             
@@ -660,6 +675,35 @@ class game:
             
             
             
+            
+            # 2nd pillar test
+            
+            if(pillar1x<595 and pillar1x>=-thick1 ):
+                pillarcolor=color1
+                pillar2nd=pillar1x
+                pillar2ndthick=thick1
+                pillar2ndheight=height1
+                
+            
+            if(pillar2x<595 and pillar2x>=-thick2):
+                pillarcolor=color2
+                pillar2nd=pillar2x
+                pillar2ndthick=thick2
+                pillar2ndheight=height2
+                
+                
+            
+            
+            
+            if(pillar3x<595 and pillar3x>=-thick3):
+                pillarcolor=color3
+                pillar2nd=pillar3x
+                pillar2ndthick=thick3
+                pillar2ndheight=height3
+                
+            
+            
+            
             # TRACKER DOTS 
             
             topleft=(355,int(sonicy))
@@ -676,7 +720,62 @@ class game:
             pygame.draw.circle(gameDisplay,black, bottomright ,3, 2)
             
             
+            #Collision Test
             
+            
+            
+            pillar_rect1=pygame.Rect(pillar2nd,0,pillar2ndthick,pillar2ndheight)
+            pillar_rect2=pygame.Rect(pillar2nd,pillar2ndheight+gap, \
+                                    pillar2ndthick,768)
+            
+            
+            # Pillar side front upper collision
+            
+            
+            if( (sonic_rect.colliderect(pillar_rect1)==True) or \
+                 (352+draw_me.get_width()<=pillar2nd and \
+                     sonic_rect.colliderect(pillar_rect2)==True)):
+                 
+                 sys.exit()
+            
+            
+            # Pillar base touch
+            
+            if( sonic_rect.colliderect(pillar_rect2)==True 
+                and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
+                or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) ):
+                    
+                     
+                    #print "hello"
+                    run=1
+                    fallf=stopf=jumpf=0
+                    
+                    sonicy=pillar2ndheight+gap-draw_me.get_height()
+                    
+            
+            
+            
+            '''
+            
+            if (topleft[1]>pillar2ndheight and bottomleft[1]<=pillar2ndheight+gap+5 \
+                 
+                and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
+                or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) ):
+                    
+                    sys.exit()
+            
+            '''
+            
+            #print pillar2nd
+            
+            
+            
+            
+            
+            
+            
+            
+            '''
             #Collision Test
             
             pillar_rect1=pygame.Rect(pillar2nd,0,pillar2ndthick,pillar2ndheight)
@@ -684,19 +783,50 @@ class game:
                                     pillar2ndthick,768)
             
             
-            if( sonic_rect.colliderect(pillar_rect1)==True or \
-                sonic_rect.colliderect(pillar_rect2)==True ):
+            # Pillar side front upper collision
+            
+            if( (sonic_rect.colliderect(pillar_rect1)==True) or \
+                (sonic_rect.colliderect(pillar_rect2)==True  and \
+                    pillar2nd>=(355+draw_me.get_width()))):
                 sys.exit()
             
+            # Pillar base touch
             
-            
-            print pillar2nd
-            
-            
-            
-            
-            
+            if(fallf!=1 and (sonic_rect.colliderect(pillar_rect2)==True) \
+                and (bottomleft[0]>pillar2nd and bottomleft[0]<pillar2nd+pillar2ndthick) \
+                or (bottomright[0]>pillar2nd and bottomright[0]<pillar2nd+pillar2ndthick) \
+                    
+                and (bottomleft[1]<=pillar2ndheight+gap and bottomleft[1]>pillar2ndheight)):   
                 
+                
+                sonicy=pillar2ndheight+gap-draw_me.get_height()
+                 
+                run=1
+                time=0
+                stop=stopf=fallf=fall=jump=jumpf=0
+                
+                
+            #Fall from platform
+            
+            
+            if( not(sonic_rect.colliderect(pillar_rect2)==True) \
+                and (bottomleft[0]>pillar2nd and bottomleft[0]<pillar2nd+pillar2ndthick) \
+                or (bottomright[0]>pillar2nd and bottomright[0]<pillar2nd+pillar2ndthick) \
+                    
+                and (bottomleft[1]<=pillar2ndheight+gap and bottomleft[1]>pillar2ndheight)):   
+                
+            
+            
+            
+            #if( (platx+490<355 or pillartouch+pillartouchthick<355) and platformdrop==False and not(stopf==1 or jumpf==1)):
+                
+                fallf=1
+                factor=1
+                initialvelocity=0
+                platformdrop=not platformdrop
+            
+            
+            '''    
                 
                 
             
