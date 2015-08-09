@@ -307,8 +307,8 @@ class game:
         
         
         flag2=False
-        
-        
+        sonicx=450
+        basetouch=False
         
         
         
@@ -340,7 +340,7 @@ class game:
             
             
             
-            454
+            
             
             
             
@@ -665,9 +665,9 @@ class game:
             draw_me=pygame.transform.scale(draw_me,(draw_me.get_width()+10,draw_me.get_height()+10))
             
             
-            gameDisplay.blit(draw_me,(355,sonicy)) #'Blit' on the backdrop
+            gameDisplay.blit(draw_me,(sonicx,sonicy)) #'Blit' on the backdrop
             
-            a=355+(draw_me.get_width()/2)
+            a=sonicx+(draw_me.get_width()/2)
             b=sonicy+(draw_me.get_height()/2)
             center=(a,b)
             
@@ -706,11 +706,11 @@ class game:
             
             # TRACKER DOTS 
             
-            topleft=(355,int(sonicy))
-            topright=(int(355+draw_me.get_width()),int(sonicy))
+            topleft=(sonicx,int(sonicy))
+            topright=(int(sonicx+draw_me.get_width()),int(sonicy))
             
-            bottomleft=(355,int(sonicy+draw_me.get_height()))
-            bottomright=(int(355+draw_me.get_width()),int(sonicy+draw_me.get_height()))
+            bottomleft=(sonicx,int(sonicy+draw_me.get_height()))
+            bottomright=(int(sonicx+draw_me.get_width()),int(sonicy+draw_me.get_height()))
             
                 
             
@@ -733,7 +733,7 @@ class game:
             
             
             if( (sonic_rect.colliderect(pillar_rect1)==True) or \
-                 (352+draw_me.get_width()<=pillar2nd and \
+                 (sonicx-3+draw_me.get_width()<=pillar2nd and \
                      sonic_rect.colliderect(pillar_rect2)==True)):
                  
                  sys.exit()
@@ -741,17 +741,35 @@ class game:
             
             # Pillar base touch
             
-            if( sonic_rect.colliderect(pillar_rect2)==True 
+            if( basetouch==False and sonic_rect.colliderect(pillar_rect2)==True 
                 and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
                 or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) ):
                     
                      
                     #print "hello"
                     run=1
+                    step=0
                     fallf=stopf=jumpf=0
+                    time=0
+                    time1=0
+                    chk=False
+                    
+                    initialvelocity=9
+                    basetouch=True
+                    factor=-1
                     
                     sonicy=pillar2ndheight+gap-draw_me.get_height()
                     
+                    
+                    
+                    
+            #Fall from platform
+            
+            
+            
+            
+            
+            
             
             
             
@@ -768,9 +786,11 @@ class game:
             
             #print pillar2nd
             
-            
-            
-            
+            '''
+            if( pillarvanish+pillarvanishthick<355 and run==1):
+                fallf=1
+                run=0
+            '''
             
             
             
