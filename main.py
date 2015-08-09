@@ -274,6 +274,9 @@ class game:
         speed=4
         
         
+        pillar2nd=pillar2x
+        
+        
         colorp=color[randint(0,5)]
         color1=color[randint(0,5)]
         while(color1==colorp):
@@ -287,6 +290,25 @@ class game:
         color3=color[randint(0,5)]
         while(color3==color2):
             color3=color[randint(0,5)]
+        
+        
+        
+        pillarcolor=color1
+        pillar2nd=pillar1x
+        pillar2ndthick=thick1
+        pillar2ndheight=height1
+            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -366,7 +388,7 @@ class game:
             #print velocity
             
             
-            if(stopf==1 or jumpf==1):
+            if((stopf==1 or jumpf==1) and run!=1):
                 
                 if(time<45):          
                     time+=1
@@ -388,6 +410,9 @@ class game:
                     fall=1
                     jump=0  
                     
+                
+                
+                
                 
                 #velocity=initialvelocity+factor*(accf*(time/22))
                 velocity=initialvelocity+(factor*accf*(time))
@@ -429,7 +454,7 @@ class game:
                 elif(step==1):      #Second Jump
                     jump=1
                     
-                    initialvelocity=7
+                    initialvelocity=8
                     time=0
                     time1=0
                     chk=False
@@ -587,6 +612,31 @@ class game:
             
             
             
+            # 2nd pillar test
+            
+            if(pillar1x<595 ):
+                pillarcolor=color1
+                pillar2nd=pillar1x
+                pillar2ndthick=thick1
+                pillar2ndheight=height1
+                
+            
+            if(pillar2x<595 ):
+                pillarcolor=color2
+                pillar2nd=pillar2x
+                pillar2ndthick=thick2
+                pillar2ndheight=height2
+                
+                
+            
+            
+            
+            if(pillar3x<595):
+                pillarcolor=color3
+                pillar2nd=pillar3x
+                pillar2ndthick=thick3
+                pillar2ndheight=height3
+            
             
             
             #  Sonic Display
@@ -602,7 +652,11 @@ class game:
             
             gameDisplay.blit(draw_me,(355,sonicy)) #'Blit' on the backdrop
             
+            a=355+(draw_me.get_width()/2)
+            b=sonicy+(draw_me.get_height()/2)
+            center=(a,b)
             
+            sonic_rect=draw_me.get_rect(center=(a,b))
             
             
             
@@ -623,20 +677,25 @@ class game:
             
             
             
+            #Collision Test
+            
+            pillar_rect1=pygame.Rect(pillar2nd,0,pillar2ndthick,pillar2ndheight)
+            pillar_rect2=pygame.Rect(pillar2nd,pillar2ndheight+gap, \
+                                    pillar2ndthick,768)
+            
+            
+            if( sonic_rect.colliderect(pillar_rect1)==True or \
+                sonic_rect.colliderect(pillar_rect2)==True ):
+                sys.exit()
             
             
             
-            # Collision Detection
+            print pillar2nd
             
-            if(pillar1x<360 and pillar1x>355):
-                pillarcolor=color1
             
-            if(pillar2x<360 and pillar2x>355 ):
-                pillarcolor=color2
-                
             
-            if(pillar1x<360 and pillar3x>355):
-                pillarcolor=color3
+            
+            
                 
                 
                 
