@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -224,7 +225,7 @@ class game:
         
         
         
-        initialvelocity=9
+        initialvelocity=8
         
         #distance=(initialvelocity**2)/(2*10)
         
@@ -248,7 +249,7 @@ class game:
         
         
         gap=150             # GAp for passage
-        array=[190,250,190,250]
+        array=[230,300,230,300]
         pillardist=array[randint(0,1)]     #Distance between pillars
         
         
@@ -303,6 +304,10 @@ class game:
         pillartouch=pillar2nd
         pillartouchthick=pillar2ndthick
         
+        
+        
+        pillarbegin=platx
+        pillarbeginthick=490
         
         
         
@@ -392,9 +397,9 @@ class game:
             
             if((stopf==1 or jumpf==1) and run!=1):
                 
-                if(time<45):          
-                    time+=1
-                    time1+=1
+                #if(time<):          
+                time+=1
+                time1+=1
                 
                 if(velocity<=0 and chk==False):
                     chk=not chk
@@ -437,7 +442,7 @@ class game:
                 
             
                 #velocity=initialvelocity+factor*(accf*(time/22))
-                velocity=accf*(time)
+                velocity=2+accf*(time)
                 
                 
                 #print (accf*(time/100))
@@ -469,12 +474,14 @@ class game:
                     fall=0
                     fallf=0
                     factor=-1
+                    initialvelocity=8
+                    time=time1=0
                     
                     
                 elif(step==1):      #Second Jump
                     jump=1
                     
-                    initialvelocity=8
+                    initialvelocity=7
                     time=0
                     time1=0
                     chk=False
@@ -594,7 +601,11 @@ class game:
                     color3=color[randint(0,5)]
             
             
-            if(platx>-495):
+            if(platx+490<sonicx-90):
+                platx=900
+                pillarbegin=900
+            
+            if(platx>=-490 and platx<840):
                 platx-=speed        
             
             pillar1x-=speed
@@ -737,20 +748,25 @@ class game:
             
             
             if( (sonic_rect.colliderect(pillar_rect1)==True) or \
-                 (sonicx-3+draw_me.get_width()<=pillar2nd and \
-                     sonic_rect.colliderect(pillar_rect2)==True)):
                  
+                    ( sonic_rect.colliderect(pillar_rect2)==True and \
+                        pillar2nd+2>sonicx+draw_me.get_width())):
+                 
+                 #print "helo"
                  sys.exit()
             
+            
+            #88888888888888888888888888888888888888888888888888888888888888888
             
             # Pillar base touch
             
             if( basetouch==False and sonic_rect.colliderect(pillar_rect2)==True 
                 and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
-                or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) ):
+                or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) \
+                and  (topright[1]>pillar2ndheight and bottomright[1]<=pillar2ndheight+gap+8)):
                     
                      
-                    #print "hello"
+                    print "hello"
                     run=1
                     step=0
                     fallf=stopf=jumpf=stop=jump=fall=0
@@ -759,19 +775,19 @@ class game:
                     chk=False
                     fallflag=False
                     
-                    initialvelocity=9
+                    initialvelocity=8
                     basetouch=True
                     factor=-1
                     
                     sonicy=pillar2ndheight+gap-draw_me.get_height()
                     
-                    
-                    
+                  
+            #88888888888888888888888888888888888888888888888888888888888888888888888        
                     
             #Fall from platform
             
-            if( fallflag==False and (pillar1x+thick1<sonicx or pillar2x+thick2<sonicx or \
-                pillar3x+thick3<sonicx or platx+490<sonicx) and run==1):
+            if( fallflag==False and (pillar2nd+pillar2ndthick<sonicx or\
+                platx+490<sonicx) and run==1):
                 
                 fallf=1
                 fall=1
@@ -780,6 +796,8 @@ class game:
                 time1=0
                 factor=1
                 basetouch=False
+                
+                
                 
                 fallflag=True
                 
@@ -794,7 +812,7 @@ class game:
             if sonicy+draw_me.get_height()>768:
                 sys.exit()
             
-            #print str(fallflag)+str(run)
+            #print str(fallflag)+str(run)c
             
             
             
