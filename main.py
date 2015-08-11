@@ -750,16 +750,39 @@ class game:
             if( (sonic_rect.colliderect(pillar_rect1)==True) or \
                  
                     ( sonic_rect.colliderect(pillar_rect2)==True and \
-                        pillar2nd+2>sonicx+draw_me.get_width())):
+                    sonicx+draw_me.get_width()<=pillar2nd+4 ) ):
                  
                  #print "helo"
                  sys.exit()
             
             
+            # Pillar base touch
+            
+            if( sonic_rect.colliderect(pillar_rect2)==True and \
+                        pillar2nd+4<sonicx+draw_me.get_width() ):
+                 
+                #print "helo"
+                print "hello"
+                run=1
+                step=0
+                fallf=stopf=jumpf=stop=jump=fall=0
+                time=0
+                time1=0
+                chk=False
+                fallflag=False
+                    
+                initialvelocity=8
+                basetouch=True
+                factor=-1
+                    
+                sonicy=pillar2ndheight+gap-draw_me.get_height()
+            
+            
+            
             #88888888888888888888888888888888888888888888888888888888888888888
             
             # Pillar base touch
-            
+            '''
             if( basetouch==False and sonic_rect.colliderect(pillar_rect2)==True 
                 and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
                 or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) \
@@ -781,8 +804,8 @@ class game:
                     
                     sonicy=pillar2ndheight+gap-draw_me.get_height()
                     
-                  
-            #88888888888888888888888888888888888888888888888888888888888888888888888        
+            '''      
+            #888888888888888888888888888888888888888888888888888888888888888888888       
                     
             #Fall from platform
             
