@@ -318,6 +318,10 @@ class game:
         
         
         
+        heightlist=[200,250,300,350,400]
+        
+        
+        
         
         # GAME LOOP BEGINS !!!
         
@@ -395,7 +399,7 @@ class game:
             #print velocity
             
             
-            if((stopf==1 or jumpf==1) and run!=1):
+            if((jumpf==1) and run!=1):
                 
                 #if(time<):          
                 time+=1
@@ -409,7 +413,7 @@ class game:
                     
                 
                     
-                if(time>5 and time1<=40):       #jump sprite show
+                if(time1<=40):       #jump sprite show
                     jump=1
                     stop=0
                     #keyinit=0
@@ -469,8 +473,9 @@ class game:
                 
                 if(step==0):    #First jump     
                     run=0
-                    stopf=1
-                    stop=1
+                    stopf=0
+                    stop=0
+                    jumpf=jump=1
                     fall=0
                     fallf=0
                     factor=-1
@@ -575,8 +580,8 @@ class game:
                 
             if(pillar1x<350-thick1):
                 pillar1x=pillar3rd+pillar3thick+array[randint(0,3)]
-                height1=randint(150,400)
-                thick1=randint(100,200)
+                height1=heightlist[randint(0,4)]
+                thick1=randint(180,250)
                 color1=color[randint(0,5)]
                 while(color1==lastcolor):
                     color1=color[randint(0,5)]
@@ -586,16 +591,16 @@ class game:
                     
             if(pillar2x<=350-thick2):
                 pillar2x=pillar3rd+pillar3thick+array[randint(0,3)]
-                height2=randint(150,400)
-                thick2=randint(100,200)
+                height2=heightlist[randint(0,4)]
+                thick2=randint(180,250)
                 color2=color[randint(0,5)]
                 while(color2==lastcolor):
                     color2=color[randint(0,5)]
             
             if(pillar3x<=350-thick3):
                 pillar3x=pillar3rd+pillar3thick+array[randint(0,3)]
-                height3=randint(150,400)
-                thick3=randint(100,200)
+                height3=heightlist[randint(0,4)]
+                thick3=randint(180,250)
                 color3=color[randint(0,5)]
                 while(color3==lastcolor):
                     color3=color[randint(0,5)]
@@ -693,14 +698,14 @@ class game:
             
             # 2nd pillar test
             
-            if(pillar1x<595 and pillar1x>=-thick1 ):
+            if(pillar1x<650 and pillar1x>=-thick1 ):
                 pillarcolor=color1
                 pillar2nd=pillar1x
                 pillar2ndthick=thick1
                 pillar2ndheight=height1
                 
             
-            if(pillar2x<595 and pillar2x>=-thick2):
+            if(pillar2x<650 and pillar2x>=-thick2):
                 pillarcolor=color2
                 pillar2nd=pillar2x
                 pillar2ndthick=thick2
@@ -710,7 +715,7 @@ class game:
             
             
             
-            if(pillar3x<595 and pillar3x>=-thick3):
+            if(pillar3x<650 and pillar3x>=-thick3):
                 pillarcolor=color3
                 pillar2nd=pillar3x
                 pillar2ndthick=thick3
@@ -750,7 +755,7 @@ class game:
             if( (sonic_rect.colliderect(pillar_rect1)==True) or \
                  
                     ( sonic_rect.colliderect(pillar_rect2)==True and \
-                    sonicx+draw_me.get_width()<=pillar2nd+4 ) ):
+                    bottomright[0]<=pillar2nd+5 ) ):
                  
                  #print "helo"
                  sys.exit()
@@ -759,10 +764,10 @@ class game:
             # Pillar base touch
             
             if( sonic_rect.colliderect(pillar_rect2)==True and \
-                        pillar2nd+4<sonicx+draw_me.get_width() ):
+                        pillar2nd+5<bottomright[0] ):
                  
                 #print "helo"
-                print "hello"
+                #print "hello"
                 run=1
                 step=0
                 fallf=stopf=jumpf=stop=jump=fall=0
