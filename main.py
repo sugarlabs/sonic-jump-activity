@@ -171,7 +171,7 @@ class game:
         
         
         
-        
+        '''
         if os.path.getsize("score.pkl") == 0:
             
             with open('score.pkl', 'wb') as output:
@@ -182,6 +182,7 @@ class game:
         with open('score.pkl', 'rb') as input:    #REading
             fruitscore = pickle.load(input)
             fruitscore=pickle.load(input)
+        '''
         
         
         i=0
@@ -784,17 +785,12 @@ class game:
             
             
             
-            #88888888888888888888888888888888888888888888888888888888888888888
+            # Platform condition
             
-            # Pillar base touch
-            '''
-            if( basetouch==False and sonic_rect.colliderect(pillar_rect2)==True 
-                and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
-                or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) \
-                and  (topright[1]>pillar2ndheight and bottomright[1]<=pillar2ndheight+gap+8)):
+            if( bottomleft[0]>platx and bottomleft[0]<=platx+490):
+                
+                if(bottomleft[1]>454):
                     
-                     
-                    print "hello"
                     run=1
                     step=0
                     fallf=stopf=jumpf=stop=jump=fall=0
@@ -807,11 +803,11 @@ class game:
                     basetouch=True
                     factor=-1
                     
-                    sonicy=pillar2ndheight+gap-draw_me.get_height()
+                    sonicy=454-draw_me.get_height()
                     
-            '''      
-            #888888888888888888888888888888888888888888888888888888888888888888888       
-                    
+            
+            
+            
             #Fall from platform
             
             if( fallflag==False and (pillar2nd+pillar2ndthick<sonicx or\
