@@ -42,7 +42,7 @@ from random import *
 
 
 
-
+'''
      
 pygame.init()
 sound=True
@@ -76,7 +76,7 @@ if not(gameDisplay):
 
 #back=pygame.image.load('background/back6.jpg')
 fruitscore=0
-
+'''
 
 
 
@@ -126,8 +126,20 @@ class welcomescreen:
        
         #scoreplate.set_alpha(100)
         
+        sonic=pygame.image.load("images/sonic.png")
+    
+        
+        font_path = "fonts/sans.ttf"
+        font_size = 80
+        font1= pygame.font.Font(font_path, font_size)
+        font2=pygame.font.Font("fonts/sans.ttf",20)
+        font3=pygame.font.Font("fonts/sans.ttf",40)
+        font4=pygame.font.Font("fonts/sans.ttf",20)
         
         
+        play=pygame.transform.scale(pygame.image.load("images/play.png"),(160,60))
+        
+        button=pygame.image.load("images/button.png")
         
         
         
@@ -158,56 +170,27 @@ class welcomescreen:
             #gameDisplay.blit(back,(350,0))
             
             
+            gameDisplay.blit(pygame.transform.scale(sonic,(100,150)),(420,50))
+            
+            gameDisplay.blit(play,(520,250))
             
             
             
-            
-            '''
-           
-            
-            if fruit.get_rect(center=(790+20,20+20)).collidepoint(mos_x,mos_y):
-                if(pygame.mouse.get_pressed())[0]==1 and press==0:
-                    
-                    gameDisplay.blit(scoreplate,(780,40))
-                    #gameDisplay.blit(scoreplate,(780,60))
-                    
-                    head1=font2.render(str(fruitmaxscore),1,(white)) 
-                    gameDisplay.blit(head1,(785,60))
-                        
-                      
-                
-                
-                
-                if event.type==pygame.MOUSEBUTTONUP:
-                    press=0
+            head1=font1.render("SONIC",1,(black)) 
+            gameDisplay.blit(head1,(520,30))
             
             
-            
-            # GAME START
-            
-            if play.get_rect(center=(510+85,200+bounce+85)).collidepoint(mos_x,mos_y):
-                if(pygame.mouse.get_pressed())[0]==1 and press==0:
-                    
-                    return 2
-                
-                
-              
+            head2=font1.render("JUMP",1,(black)) 
+            gameDisplay.blit(head2,(520,100))
             
             
+            head3=font2.render("Use this button ->",1,(black))
+            gameDisplay.blit(head3,(440,400))
             
-            '''
+            gameDisplay.blit(button,(650,380))
             
-            #gameDisplay.blit(fruit,(780,20))
-            
-            #head1=font1.render("SONIC",1,(black)) 
-            #gameDisplay.blit(head1,(500,20))
-            
-            
-            #head2=font1.render("JUMP",1,(black)) 
-            #gameDisplay.blit(head2,(510,80))
-            
-            
-            
+            head3=font2.render("to play the game",1,(black))
+            gameDisplay.blit(head3,(440,420))
             
             
             #left and right black background patches
@@ -217,8 +200,21 @@ class welcomescreen:
             pygame.draw.rect(gameDisplay,black,(840,0,693,768))
             
             
-            #print "hello"
             
+            
+            # Play Button
+            
+            if play.get_rect(center=(520+(play.get_width()/2),250+(play.get_height()/2))).collidepoint(mos_x,mos_y):
+                gameDisplay.blit(pygame.transform.scale(play,(play.get_width()+4,play.get_height()+4)),(520-2,250-2))
+                
+                if(pygame.mouse.get_pressed())[0]==1 and press==0:
+                    
+                    return 
+                
+                
+                
+                if event.type==pygame.MOUSEBUTTONUP:
+                    press=0    
             
             
             
@@ -246,10 +242,10 @@ class welcomescreen:
             
 
 
-
+'''
 
 if __name__ == "__main__":
     g = welcomescreen()
     g.make(gameDisplay)         
-
+'''
             

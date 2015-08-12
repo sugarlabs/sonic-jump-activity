@@ -37,7 +37,7 @@ from random import *
 
 
 
-
+'''
 
   
 pygame.init()
@@ -74,6 +74,7 @@ if not(gameDisplay):
 fruitscore=0
 score=0
 
+'''
 
 
 
@@ -226,7 +227,7 @@ class scorescreen:
             
             # Play Button
             
-            if play.get_rect(center=(620+(home.get_width()/2),450+(home.get_height()/2))).collidepoint(mos_x,mos_y):
+            if play.get_rect(center=(620+(play.get_width()/2),450+(play.get_height()/2))).collidepoint(mos_x,mos_y):
                 gameDisplay.blit(pygame.transform.scale(play,(play.get_width()+4,play.get_height()+4)),(620-2,450-2))
                 
                 if(pygame.mouse.get_pressed())[0]==1 and press==0:
@@ -279,14 +280,14 @@ class scorescreen:
 
 
 
-
+'''
 
 
 if __name__ == "__main__":
     g = scorescreen()
     g.make(gameDisplay,score)         
 
-
+'''
 if __name__ == "__main__":
     g = scorescreen()
     g.make(gameDisplay,score)         
