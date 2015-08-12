@@ -322,8 +322,9 @@ class game:
         
         # Sound loads
         
-        #pop1=pygame.mixer.Sound("sound/pop_1.ogg")
-        
+        jumpsound=pygame.mixer.Sound("sound/sound-jump.ogg")
+        bumpsound=pygame.mixer.Sound("sound/sound-bump.ogg")
+        coinsound=pygame.mixer.Sound("sound/sound-coin.ogg")
         
         
         
@@ -477,6 +478,7 @@ class game:
             if event.type==pygame.KEYDOWN and event.key==273 and keyinit==0 and step<2 :
                 
                 keyinit=1
+                jumpsound.play(0)
                
                 #print "hl"
                 #print step
@@ -757,6 +759,7 @@ class game:
                     bottomright[0]<=pillar2nd+5 )  ):
                  
                  
+                bumpsound.play(0) 
                  
                 if(score>maxscore):
                     with open('score.pkl', 'wb') as output:
@@ -767,12 +770,13 @@ class game:
                 
                 a=scorescreen()
                 a=a.run(gameDisplay,score)
-                if(a==0):
-                    homef=1
                 
-                elif(a==1):
+                
+                if(a==1 or a==0):
                     
                     # Variables reinitialization
+                    if(a==0):
+                        homef=1
                     
                     score=0
         
@@ -943,6 +947,7 @@ class game:
                 #print "hello"
                 if(platx==900):
                     score+=1
+                    coinsound.play(0)
                 
                 run=1
                 step=0

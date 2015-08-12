@@ -151,7 +151,7 @@ class scorescreen:
             
         
         
-        
+        buttonsound=pygame.mixer.Sound("sound/sound-button.ogg")
         
         
         
@@ -216,13 +216,11 @@ class scorescreen:
                 gameDisplay.blit(pygame.transform.scale(home,(home.get_width()+4,home.get_height()+4)),(430-2,450-2))
                 
                 if(pygame.mouse.get_pressed())[0]==1 and press==0:
-                    
+                    buttonsound.play(0)
                     return 0
                 
                 
                 
-                if event.type==pygame.MOUSEBUTTONUP:
-                    press=0
             
             
             # Play Button
@@ -232,16 +230,18 @@ class scorescreen:
                 
                 if(pygame.mouse.get_pressed())[0]==1 and press==0:
                     
+                    buttonsound.play(0)
                     return 1
                 
                 
-                
-                if event.type==pygame.MOUSEBUTTONUP:
-                    press=0    
+                 
             
             
             
-            
+            for event in pygame.event.get():
+                if event.type==pygame.KEYDOWN and event.key==273 :
+                    buttonsound.play(0)
+                    return 1
             
             
             #left and right black background patches
@@ -288,7 +288,3 @@ if __name__ == "__main__":
     g.make(gameDisplay,score)         
 
 '''
-if __name__ == "__main__":
-    g = scorescreen()
-    g.make(gameDisplay,score)         
-     

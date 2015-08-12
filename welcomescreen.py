@@ -140,7 +140,7 @@ class welcomescreen:
         play=pygame.transform.scale(pygame.image.load("images/play.png"),(160,60))
         
         button=pygame.image.load("images/button.png")
-        
+        buttonsound=pygame.mixer.Sound("sound/sound-button.ogg")
         
         
         
@@ -208,13 +208,11 @@ class welcomescreen:
                 gameDisplay.blit(pygame.transform.scale(play,(play.get_width()+4,play.get_height()+4)),(520-2,250-2))
                 
                 if(pygame.mouse.get_pressed())[0]==1 and press==0:
-                    
+                    buttonsound.play(0)
                     return 
                 
                 
-                
-                if event.type==pygame.MOUSEBUTTONUP:
-                    press=0    
+                  
             
             
             
