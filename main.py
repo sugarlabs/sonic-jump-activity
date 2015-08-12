@@ -281,6 +281,7 @@ class game:
         pillar2nd=pillar1x
         pillar2ndthick=thick1
         pillar2ndheight=height1
+        lastheight=height1
             
         platformdrop=False
         
@@ -575,16 +576,19 @@ class game:
                 pillar3rd=pillar3x
                 pillar3thick=thick3
                 lastcolor=color3
+                lastheight=height3
                 
             elif(pillar2x>700):
                 pillar3rd=pillar2x
                 pillar3thick=thick2
                 lastcolor=color2
+                lastheight=height2
                 
             elif(pillar1x>700):
                 pillar3rd=pillar1x
                 pillar3thick=thick1
                 lastcolor=color1
+                lastheight=height1
                 
                 
                 
@@ -593,30 +597,47 @@ class game:
                 
             if(pillar1x<350-thick1):
                 pillar1x=pillar3rd+pillar3thick+array[randint(0,3)]
-                height1=heightlist[randint(0,4)]
+                
                 thick1=randint(180,250)
                 color1=color[randint(0,5)]
                 while(color1==lastcolor):
                     color1=color[randint(0,5)]
+                
+                height1=heightlist[randint(0,4)]
+                while(height1==lastheight or (lastheight==400 and height1==200) or (lastheight==200 and height1==400) ):
+                    height1=heightlist[randint(0,4)]
+                    
+                    
                 
                 
                 
                     
             if(pillar2x<=350-thick2):
                 pillar2x=pillar3rd+pillar3thick+array[randint(0,3)]
-                height2=heightlist[randint(0,4)]
+                #height2=heightlist[randint(0,4)]
                 thick2=randint(180,250)
                 color2=color[randint(0,5)]
                 while(color2==lastcolor):
                     color2=color[randint(0,5)]
+                
+                height2=heightlist[randint(0,4)]
+                while(height2==lastheight or (lastheight==400 and height2==200) or (lastheight==200 and height2==400)):
+                    height2=heightlist[randint(0,4)]
+                    
+                    
+                    
             
             if(pillar3x<=350-thick3):
                 pillar3x=pillar3rd+pillar3thick+array[randint(0,3)]
-                height3=heightlist[randint(0,4)]
+                #height3=heightlist[randint(0,4)]
                 thick3=randint(180,250)
                 color3=color[randint(0,5)]
                 while(color3==lastcolor):
                     color3=color[randint(0,5)]
+                    
+                height3=heightlist[randint(0,4)]
+                while(height3==lastheight or (lastheight==400 and height3==200) or  (lastheight==200 and height3==400) ):
+                    height3=heightlist[randint(0,4)]    
             
             
             if(platx+490<sonicx-90):
@@ -908,6 +929,7 @@ class game:
                     pillar2nd=pillar1x
                     pillar2ndthick=thick1
                     pillar2ndheight=height1
+                    lastheight=height1
             
                     platformdrop=False
         
