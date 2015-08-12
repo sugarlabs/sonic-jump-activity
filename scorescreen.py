@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Stick Hero
+# Sonic Jump
 # Copyright (C) 2015  Utkarsh Tiwari
 #
 # This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,7 @@ from random import *
 
 
 
-
-'''
-     
+  
 pygame.init()
 sound=True
         
@@ -68,14 +66,13 @@ if not(gameDisplay):
     info=pygame.display.Info()
     gameDisplay = pygame.display.set_mode((info.current_w,info.current_h))
             
-    pygame.display.set_caption("Make Them Fall")
+    #pygame.display.set_caption("Make Them Fall")
     #gameicon=pygame.image.load('data/images/icon.png')
     #pygame.display.set_icon(gameicon)
 
-back=pygame.image.load('background/back6.jpg')
+#back=pygame.image.load('background/back6.jpg')
 fruitscore=0
 score=0
-'''
 
 
 
@@ -85,7 +82,7 @@ score=0
 
 class scorescreen:
 
-    def make(self,gameDisplay,back,score,fruitscore):
+    def make(self,gameDisplay,score):
         
         pygame.init()
         sound=True
@@ -118,24 +115,9 @@ class scorescreen:
             
             
         
-        
-        replay=pygame.image.load("images/scorescreen/replay.png")
-        replay=pygame.transform.scale(replay,(104,102))
-        scoreplate=pygame.image.load("images/scorescreen/scoreplate.png")
-        scoreplate=pygame.transform.scale(scoreplate,(230+130,140+80))
-        
-        
-        plate=pygame.image.load("images/scoreplate.png").convert()
-        plate=pygame.transform.scale(plate,(340,90))
-        plate.set_alpha(220)
-        
-        
-        home=pygame.image.load("images/scorescreen/home.png")
-        #back=pygame.image.load("screenshot/screenshot.png")
-        
-        back.convert()
-        back.set_alpha(225)
-        
+        back=pygame.image.load("images/over.png")
+        home=pygame.transform.scale(pygame.image.load("images/home.png"),(160,60))
+        play=pygame.transform.scale(pygame.image.load("images/play.png"),(160,60))
         
         #herotr=hero
         
@@ -158,30 +140,14 @@ class scorescreen:
         
         keypressflag=0
         
+        
         maxscore=0
-        fruitmaxscore=0
+        
         
         
         with open('score.pkl', 'rb') as input:    #REading
             maxscore = pickle.load(input)
-            fruitmaxscore=pickle.load(input)
-        
-        
-        
-        if(fruitscore>fruitmaxscore):
-            fruitmaxscore=fruitscore
-            with open('score.pkl', 'wb') as output:
-                pickle.dump(maxscore, output, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(fruitmaxscore, output, pickle.HIGHEST_PROTOCOL)
-                
-        if(score>maxscore):
-            maxscore=score
-            with open('score.pkl', 'wb') as output:
-                pickle.dump(maxscore, output, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(fruitmaxscore, output, pickle.HIGHEST_PROTOCOL)
-        
-        
-        
+            
         
         
         
@@ -204,71 +170,38 @@ class scorescreen:
                 if event.type == pygame.QUIT:
                     crashed=True
                     
-                #event=pygame.event.poll()
-                if event.type==pygame.KEYDOWN and event.key==273:
-                #jump.play(0)
                 
-                        
-                    return 1    
+                    
                 
-            
+            #print "help"
             mos_x,mos_y=pygame.mouse.get_pos() 
             
             #print event
             
-            i+=1
-            
-            if(i>20):
-                i=0
-                
-            
-            if(i%3==0):
-                if(down==1):
-                    bounce+=1
-                    if(bounce>8):
-                        down=0
-                if(down==0):
-                    bounce-=1
-                    if(bounce<0):
-                        down=1
-                
             
                 
             gameDisplay.fill(white)
-            gameDisplay.blit(back,(350,0))
+            gameDisplay.blit(pygame.transform.scale(back,(490,768)),(350,0))
             
             
             
-            gameDisplay.blit(plate,(430,40))
-            
-            head1=font1.render("GAME OVER!",1,(white)) 
-            gameDisplay.blit(head1,(440,40))
-            '''
-            
-            head2=font1.render("HERO",1,(black)) 
-            gameDisplay.blit(head2,(510,80))
-            
-            '''
             
             
-            gameDisplay.blit(scoreplate,(420,200))
-            
-            
-            gameDisplay.blit(home,(380+60+25,400+50))
-            
-            gameDisplay.blit(replay,(600+60-25,400+50))
-            
-            
-            
-            #score check
             
             
             
             scores=font2.render(str(score),1,black)
-            gameDisplay.blit(scores,(575,250))
+            gameDisplay.blit(scores,(560,250))
             
             maxscores=font2.render(str(maxscore),1,black)
-            gameDisplay.blit(maxscores,(575,350))
+            gameDisplay.blit(maxscores,(560,325))
+            
+            
+            
+            gameDisplay.blit(home,(430,450))
+            
+            gameDisplay.blit(play,(620,450))
+            
             
             
             # GAME START
@@ -276,10 +209,10 @@ class scorescreen:
             
             
             
+            # Home button
             
-            
-            if home.get_rect(center=(380+60+52+25,400+50+51)).collidepoint(mos_x,mos_y):
-                gameDisplay.blit(pygame.transform.scale(home,(108,106)),(380+60+25-2,400+50-2))
+            if home.get_rect(center=(430+(home.get_width()/2),450+(home.get_height()/2))).collidepoint(mos_x,mos_y):
+                gameDisplay.blit(pygame.transform.scale(home,(home.get_width()+4,home.get_height()+4)),(430-2,450-2))
                 
                 if(pygame.mouse.get_pressed())[0]==1 and press==0:
                     
@@ -291,17 +224,10 @@ class scorescreen:
                     press=0
             
             
+            # Play Button
             
-            
-            
-            
-            # Help menu
-            
-            if replay.get_rect(center=(600+60+52-25,400+50+51)).collidepoint(mos_x,mos_y):
-                gameDisplay.blit(pygame.transform.scale(replay,(108,106)),(600+60-25-2,400+50-2))
-                
-                
-                
+            if play.get_rect(center=(620+(home.get_width()/2),450+(home.get_height()/2))).collidepoint(mos_x,mos_y):
+                gameDisplay.blit(pygame.transform.scale(play,(play.get_width()+4,play.get_height()+4)),(620-2,450-2))
                 
                 if(pygame.mouse.get_pressed())[0]==1 and press==0:
                     
@@ -309,36 +235,10 @@ class scorescreen:
                 
                 
                 
-                
-                
+                if event.type==pygame.MOUSEBUTTONUP:
+                    press=0    
             
             
-            
-            
-            #gameDisplay.blit(fruit,(780,20))
-            
-            '''
-            event=pygame.event.poll():
-            if event.type==pygame.KEYDOWN and event.key==273:
-                #jump.play(0)
-                
-                    
-                return 1
-            
-            '''
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            #fruitscores=font2.render(str(fruitscore),1,(0,0,0)) 
-            #gameDisplay.blit(fruitscores,(770+fruitscoreshift,13))
             
             
             
@@ -377,10 +277,17 @@ class scorescreen:
             pygame.quit()
             sys.exit()
 
-'''            
+
+
+
+
 
 if __name__ == "__main__":
     g = scorescreen()
-    g.make(gameDisplay,score,fruitscore)         
-'''
-          
+    g.make(gameDisplay,score)         
+
+
+if __name__ == "__main__":
+    g = scorescreen()
+    g.make(gameDisplay,score)         
+     
