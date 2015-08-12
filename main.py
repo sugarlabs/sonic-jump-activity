@@ -167,22 +167,20 @@ class game:
         
         
         
+        score=0
+        maxscore=0
         
         
         
         
-        '''
         if os.path.getsize("score.pkl") == 0:
             
             with open('score.pkl', 'wb') as output:
                 pickle.dump(0, output, pickle.HIGHEST_PROTOCOL)
-                pickle.dump(0, output, pickle.HIGHEST_PROTOCOL)
         
         
         with open('score.pkl', 'rb') as input:    #REading
-            fruitscore = pickle.load(input)
-            fruitscore=pickle.load(input)
-        '''
+            maxscore = pickle.load(input)
         
         
         i=0
@@ -320,6 +318,17 @@ class game:
         
         
         heightlist=[200,250,300,350,400]
+        
+        
+        font_path = "fonts/sans.ttf"
+        font_size = 55
+        font1= pygame.font.Font(font_path, font_size)
+        font2=pygame.font.Font("fonts/sans.ttf",30)
+        font3=pygame.font.Font("fonts/sans.ttf",40)
+        font4=pygame.font.Font("fonts/sans.ttf",23)
+        
+        
+        
         
         
         
@@ -653,27 +662,7 @@ class game:
                 
             
             # Pillar Touch test
-            '''
             
-            if(350>=pill):
-                pillartouch=pillar1x
-                pillartouchheight=height1
-                pillartouchthick=thick1
-                
-            
-            if(pillar2x>350 and pillar2x<=355):
-                pillartouch=pillar2x
-                pillartouchheight=height2
-                pillartouchthick=thick2
-                
-            
-            if(pillar3x>350 and pillar3x<=355):
-                pillartouch=pillar3x
-                pillartouchheight=height3
-                pillartouchthick=thick3
-                
-            '''    
-                
                 
             #  Sonic Display
             
@@ -694,6 +683,14 @@ class game:
             
             sonic_rect=draw_me.get_rect(center=(a,b))
             
+            
+            
+            
+            # Current Scores Display
+            
+            
+            scores=font4.render(str(score),1,black)
+            gameDisplay.blit(scores,(790,20))
             
             
             
@@ -735,10 +732,10 @@ class game:
             
                 
             
-            pygame.draw.circle(gameDisplay,black,topleft ,3, 2)
-            pygame.draw.circle(gameDisplay,black, topright ,3, 2)
-            pygame.draw.circle(gameDisplay,black, bottomleft ,3, 2)
-            pygame.draw.circle(gameDisplay,black, bottomright ,3, 2)
+            #pygame.draw.circle(gameDisplay,black,topleft ,3, 2)
+            #pygame.draw.circle(gameDisplay,black, topright ,3, 2)
+            #pygame.draw.circle(gameDisplay,black, bottomleft ,3, 2)
+            #pygame.draw.circle(gameDisplay,black, bottomright ,3, 2)
             
             
             #Collision Test
@@ -756,19 +753,29 @@ class game:
             if( (sonic_rect.colliderect(pillar_rect1)==True) or \
                  
                     ( sonic_rect.colliderect(pillar_rect2)==True and \
-                    bottomright[0]<=pillar2nd+5 ) ):
+                    bottomright[0]<=pillar2nd+5 )  ):
                  
-                 #print "helo"
-                 sys.exit()
+                 
+                 
+                if(score>maxscore):
+                    with open('score.pkl', 'wb') as output:
+                        pickle.dump(score, output, pickle.HIGHEST_PROTOCOL)
+                 
+                 
+                #print "helo"
+                sys.exit()
             
             
             # Pillar base touch
             
             if( sonic_rect.colliderect(pillar_rect2)==True and \
-                        pillar2nd+5<bottomright[0] ):
+                        pillar2nd+5<bottomright[0] and basetouch==False ):
                  
                 #print "helo"
                 #print "hello"
+                if(platx==900):
+                    score+=1
+                
                 run=1
                 step=0
                 fallf=stopf=jumpf=stop=jump=fall=0
@@ -800,7 +807,7 @@ class game:
                     fallflag=False
                     
                     initialvelocity=8
-                    basetouch=True
+                    #basetouch=True
                     factor=-1
                     
                     sonicy=454-draw_me.get_height()
@@ -839,81 +846,6 @@ class game:
             #print str(fallflag)+str(run)c
             
             
-            
-            '''
-            
-            if (topleft[1]>pillar2ndheight and bottomleft[1]<=pillar2ndheight+gap+5 \
-                 
-                and ((bottomleft[0]>=pillar2nd and bottomleft[0]<=pillar2nd+pillar2ndthick) \
-                or (bottomright[0]>=pillar2nd and bottomright[0]<=pillar2nd+pillar2ndthick)) ):
-                    
-                    sys.exit()
-            
-            '''
-            
-            #print pillar2nd
-            
-            '''
-            if( pillarvanish+pillarvanishthick<355 and run==1):
-                fallf=1
-                run=0
-            '''
-            
-            
-            
-            
-            '''
-            #Collision Test
-            
-            pillar_rect1=pygame.Rect(pillar2nd,0,pillar2ndthick,pillar2ndheight)
-            pillar_rect2=pygame.Rect(pillar2nd,pillar2ndheight+gap, \
-                                    pillar2ndthick,768)
-            
-            
-            # Pillar side front upper collision
-            
-            if( (sonic_rect.colliderect(pillar_rect1)==True) or \
-                (sonic_rect.colliderect(pillar_rect2)==True  and \
-                    pillar2nd>=(355+draw_me.get_width()))):
-                sys.exit()
-            
-            # Pillar base touch
-            
-            if(fallf!=1 and (sonic_rect.colliderect(pillar_rect2)==True) \
-                and (bottomleft[0]>pillar2nd and bottomleft[0]<pillar2nd+pillar2ndthick) \
-                or (bottomright[0]>pillar2nd and bottomright[0]<pillar2nd+pillar2ndthick) \
-                    
-                and (bottomleft[1]<=pillar2ndheight+gap and bottomleft[1]>pillar2ndheight)):   
-                
-                
-                sonicy=pillar2ndheight+gap-draw_me.get_height()
-                 
-                run=1
-                time=0
-                stop=stopf=fallf=fall=jump=jumpf=0
-                
-                
-            #Fall from platform
-            
-            
-            if( not(sonic_rect.colliderect(pillar_rect2)==True) \
-                and (bottomleft[0]>pillar2nd and bottomleft[0]<pillar2nd+pillar2ndthick) \
-                or (bottomright[0]>pillar2nd and bottomright[0]<pillar2nd+pillar2ndthick) \
-                    
-                and (bottomleft[1]<=pillar2ndheight+gap and bottomleft[1]>pillar2ndheight)):   
-                
-            
-            
-            
-            #if( (platx+490<355 or pillartouch+pillartouchthick<355) and platformdrop==False and not(stopf==1 or jumpf==1)):
-                
-                fallf=1
-                factor=1
-                initialvelocity=0
-                platformdrop=not platformdrop
-            
-            
-            '''    
                 
                 
             
