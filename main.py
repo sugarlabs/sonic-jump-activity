@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Sonic Thief
+# Sonic Jump
 # Copyright (C) 2015  Utkarsh Tiwari
 #
 # This program is free software: you can redistribute it and/or modify
