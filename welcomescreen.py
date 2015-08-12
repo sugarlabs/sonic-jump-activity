@@ -84,7 +84,7 @@ fruitscore=0
 
 class welcomescreen:
 
-    def make(self,gameDisplay):
+    def run(self,gameDisplay):
         
         pygame.init()
         sound=True

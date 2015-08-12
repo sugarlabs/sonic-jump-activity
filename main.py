@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -38,7 +37,8 @@ from random import *
 from pygame.locals import *
 
 
-
+from scorescreen import *
+from welcomescreen import *
 
 
 
@@ -49,7 +49,7 @@ from pygame.locals import *
 
 
 class game:
-
+    
     def make(self):
         
         pygame.init()
@@ -88,24 +88,9 @@ class game:
             
         sprite=pygame.image.load("images/sprite.png")
         
-        #herotr=hero
-        #herotr=pygame.transform.scale(hero,(30,26))
         
         
-        
-        
-        
-        
-        #pillarlist=[alpha,beta,gamma,delta]
-        
-        
-        # Sound loads
-        
-        
-        
-        #pop1=pygame.mixer.Sound("sound/pop_1.ogg")
-        
-        
+        # Variable Initialization
         
         
         font_path = "fonts/comicsans.ttf"
@@ -328,6 +313,20 @@ class game:
         font4=pygame.font.Font("fonts/sans.ttf",23)
         
         
+        homef=1
+        replay=0
+        
+        
+        
+        
+        
+        # Sound loads
+        
+        #pop1=pygame.mixer.Sound("sound/pop_1.ogg")
+        
+        
+        
+        
         
         
         
@@ -351,16 +350,18 @@ class game:
             #print "hello"
             
                 
-            gameDisplay.fill(white)
+            
             
                     
-            #gameDisplay.blit(sprite,(350,50))
+            # HOme call
+            
+            if(homef==1):
+                a=welcomescreen()
+                a.run(gameDisplay)
+                homef=0
             
             
-            
-            
-            
-            
+            gameDisplay.fill(white)
             
             
             i+=1
@@ -750,7 +751,7 @@ class game:
             # Pillar side front upper collision
             
             
-            if( (sonic_rect.colliderect(pillar_rect1)==True) or \
+            if(sonicy+draw_me.get_height()>768  or (sonic_rect.colliderect(pillar_rect1)==True) or \
                  
                     ( sonic_rect.colliderect(pillar_rect2)==True and \
                     bottomright[0]<=pillar2nd+5 )  ):
@@ -761,9 +762,176 @@ class game:
                     with open('score.pkl', 'wb') as output:
                         pickle.dump(score, output, pickle.HIGHEST_PROTOCOL)
                  
-                 
-                #print "helo"
-                sys.exit()
+                
+                #scorescreen call
+                
+                a=scorescreen()
+                a=a.run(gameDisplay,score)
+                if(a==0):
+                    homef=1
+                
+                elif(a==1):
+                    
+                    # Variables reinitialization
+                    
+                    score=0
+        
+                    maxscore=0
+        
+        
+        
+        
+                    if os.path.getsize("score.pkl") == 0:
+            
+                        with open('score.pkl', 'wb') as output:
+                            pickle.dump(0, output, pickle.HIGHEST_PROTOCOL)
+        
+        
+                    with open('score.pkl', 'rb') as input:    #REading
+                        maxscore = pickle.load(input)
+        
+        
+                    i=0
+        
+                    j=0
+                    k=0
+        
+                    keyinit=0
+        
+        
+                    run=1
+                    jump=stop=0
+        
+                    fall=touch=0
+        
+                    r=s=j=0
+        
+                    frame=5     # FRame rate
+        
+        
+                    sonicy=410
+        
+                    inity=410
+                    velocity=0
+                    distance=150
+        
+                    time=0
+                    fall=0
+                    down=0
+                    flag1=0
+        
+        
+                    f=t=0
+        
+        
+        
+        
+                    jumpf=fallf=stopf=0   
+        
+                    accf=0.21
+        
+        
+        
+                    initialvelocity=8
+        
+                    #distance=(initialvelocity**2)/(2*10)
+        
+                    timefactor=0.02
+        
+                    step=0
+        
+                    velocity=10
+        
+        
+        
+        
+        
+                    #pillar coordinte x
+        
+                    time1=0
+        
+        
+                    chk=False
+                    factor=-1
+        
+        
+                    gap=150             # GAp for passage
+                    array=[230,300,230,300]
+                    pillardist=array[randint(0,1)]     #Distance between pillars
+        
+        
+                    thick1=200          #Thicknesss of the pillars
+        
+                    thick2=180  
+        
+                    thick3=250
+        
+        
+                    platx=350
+                    pillar1x=840+pillardist
+                    pillar2x=(pillar1x+thick1)+pillardist
+        
+                    pillardist=array[randint(0,1)] 
+        
+                    pillar3x=(pillar2x+thick2)+pillardist
+        
+                    height1=200
+                    height2=350
+                    height3=400
+        
+                    speed=4
+        
+        
+        
+        
+                    colorp=color[randint(0,5)]
+                    color1=color[randint(0,5)]
+                    while(color1==colorp):
+                        color1=color[randint(0,5)]
+        
+                    color2=color[randint(0,5)]
+                    while(color2==color1):
+                        color2=color[randint(0,5)]
+         
+        
+                    color3=color[randint(0,5)]
+                    while(color3==color2):
+                        color3=color[randint(0,5)]
+        
+        
+        
+                    pillarcolor=color1
+                    pillar2nd=pillar1x
+                    pillar2ndthick=thick1
+                    pillar2ndheight=height1
+            
+                    platformdrop=False
+        
+        
+                    pillartouch=pillar2nd
+                    pillartouchthick=pillar2ndthick
+        
+        
+        
+                    pillarbegin=platx
+                    pillarbeginthick=490
+        
+        
+        
+                    flag2=False
+                    sonicx=450
+                    basetouch=False
+                    fallflag=False
+        
+        
+        
+                    heightlist=[200,250,300,350,400]
+        
+        
+        
+                    
+                    replay=0
+                
             
             
             # Pillar base touch
@@ -835,13 +1003,7 @@ class game:
                 #print "hello"
                 
                 
-            #print fall
             
-            ## FAll dead exit
-            
-            
-            if sonicy+draw_me.get_height()>768:
-                sys.exit()
             
             #print str(fallflag)+str(run)c
             

@@ -83,7 +83,7 @@ score=0
 
 class scorescreen:
 
-    def make(self,gameDisplay,score):
+    def run(self,gameDisplay,score):
         
         pygame.init()
         sound=True
