@@ -987,6 +987,9 @@ class game:
                     
             
             
+            if(basetouch==True and pillar2nd<sonicx):
+                basetouch=False
+            
             
             #Fall from platform
             
