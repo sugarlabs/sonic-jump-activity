@@ -327,6 +327,7 @@ class game:
         bumpsound=pygame.mixer.Sound("sound/sound-bump.ogg")
         coinsound=pygame.mixer.Sound("sound/sound-coin.ogg")
         
+        scoref=0
         
         
         
@@ -955,7 +956,7 @@ class game:
                     heightlist=[200,250,300,350,400]
         
         
-        
+                    scoref=0
                     scoreflag=0
                     replay=0
                 
@@ -968,9 +969,9 @@ class game:
                  
                 #print "helo"
                 #print "hello"
-                if(platx==900):
-                    score+=1
-                    coinsound.play(0)
+                #if(platx==900):
+                #    score+=1
+                #    coinsound.play(0)
                 
                 run=1
                 step=0
@@ -1038,9 +1039,13 @@ class game:
             
             #print str(fallflag)+str(run)c
             
-            
+            if(pillar2nd+5<sonicx and scoref==0):
+                score+=1
+                scoref=1
+                coinsound.play(0)
                 
-                
+            if(pillar2nd+5>sonicx and scoref==1):
+                scoref=0
             
             
             

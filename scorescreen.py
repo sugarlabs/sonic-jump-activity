@@ -132,12 +132,13 @@ class scorescreen:
         font_size = 55
         font1= pygame.font.Font(font_path, font_size)
         font2=pygame.font.Font("fonts/sans.ttf",30)
-        font3=pygame.font.Font("fonts/sans.ttf",40)
+        font3=pygame.font.Font("fonts/sans.ttf",30)
         font4=pygame.font.Font("fonts/sans.ttf",20)
         
         down=1
         bounce=0
         i=0
+        red=(255,0,0)
         
         keypressflag=0
         
@@ -171,7 +172,8 @@ class scorescreen:
                 if event.type == pygame.QUIT:
                     crashed=True
                     
-                
+                if event.type==pygame.KEYDOWN and event.key==273:
+                    return 1
                     
                 
             #print "help"
@@ -191,7 +193,7 @@ class scorescreen:
             
             
             if(scoreflag==1):
-                scores=font2.render(str(score)+"  NEW!",1,black)
+                scores=font2.render(str(score)+"  NEW!",1,red)
             else:
                 scores=font2.render(str(score),1,black)
             
@@ -244,10 +246,10 @@ class scorescreen:
             
             
             
-            event=pygame.event.poll() 
-            if event.type==pygame.KEYDOWN and event.key==273 :
-                buttonsound.play(0)
-                return 1
+            for event in pygame.event.get():
+                if event.type==pygame.KEYDOWN and event.key==273 :
+                    buttonsound.play(0)
+                    return 1
             
             
             #left and right black background patches
