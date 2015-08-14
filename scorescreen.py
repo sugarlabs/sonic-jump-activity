@@ -83,7 +83,7 @@ score=0
 
 class scorescreen:
 
-    def run(self,gameDisplay,score):
+    def run(self,gameDisplay,score,scoreflag):
         
         pygame.init()
         sound=True
@@ -190,8 +190,13 @@ class scorescreen:
             
             
             
+            if(scoreflag==1):
+                scores=font2.render(str(score)+"  NEW!",1,black)
+            else:
+                scores=font2.render(str(score),1,black)
             
-            scores=font2.render(str(score),1,black)
+            
+            
             gameDisplay.blit(scores,(560,250))
             
             maxscores=font2.render(str(maxscore),1,black)
@@ -238,10 +243,11 @@ class scorescreen:
             
             
             
-            for event in pygame.event.get():
-                if event.type==pygame.KEYDOWN and event.key==273 :
-                    buttonsound.play(0)
-                    return 1
+            
+            event=pygame.event.poll() 
+            if event.type==pygame.KEYDOWN and event.key==273 :
+                buttonsound.play(0)
+                return 1
             
             
             #left and right black background patches

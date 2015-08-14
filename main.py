@@ -199,7 +199,7 @@ class game:
         
         
         f=t=0
-        
+        scoreflag=0
         
         
         
@@ -783,6 +783,7 @@ class game:
                 bumpsound.play(0) 
                  
                 if(score>maxscore):
+                    scoreflag=1
                     with open('score.pkl', 'wb') as output:
                         pickle.dump(score, output, pickle.HIGHEST_PROTOCOL)
                  
@@ -790,7 +791,7 @@ class game:
                 #scorescreen call
                 
                 a=scorescreen()
-                a=a.run(gameDisplay,score)
+                a=a.run(gameDisplay,score,scoreflag)
                 
                 
                 if(a==1 or a==0):
@@ -955,7 +956,7 @@ class game:
         
         
         
-                    
+                    scoreflag=0
                     replay=0
                 
             
