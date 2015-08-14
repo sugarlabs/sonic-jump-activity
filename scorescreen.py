@@ -192,16 +192,19 @@ class scorescreen:
             
             
             
-            if(scoreflag==1):
-                scores=font2.render(str(score)+"  NEW!",1,red)
-            else:
-                scores=font2.render(str(score),1,black)
+            
+            scores=font2.render(str(score),1,black)
             
             
             
             gameDisplay.blit(scores,(560,250))
             
-            maxscores=font2.render(str(maxscore),1,black)
+            if(scoreflag==1):
+                maxscores=font2.render(str(maxscore)+"  NEW!",1,red)
+            else:
+                maxscores=font2.render(str(maxscore),1,black)
+            
+            
             gameDisplay.blit(maxscores,(560,325))
             
             
