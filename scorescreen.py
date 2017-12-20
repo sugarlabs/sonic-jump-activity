@@ -22,7 +22,9 @@
 
 
 import os
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 import pickle
 import pygame
 import sys
@@ -142,8 +144,8 @@ class scorescreen:
         while not crashed:
             # Gtk events
 
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             for event in pygame.event.get():
                 # totaltime+=timer.tick()
                 if event.type == pygame.KEYDOWN:
