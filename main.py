@@ -125,6 +125,9 @@ class game:
         score = 0
         maxscore = 0
 
+        if os.path.exists("score.pkl")==False:
+            open('score.pkl','w+')
+        
         if os.path.getsize("score.pkl") == 0:
 
             with open('score.pkl', 'wb') as output:
