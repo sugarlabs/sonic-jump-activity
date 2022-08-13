@@ -364,7 +364,7 @@ class game:
 
             # Keyboard Hit check
 
-            if event.type == pygame.KEYDOWN and event.key == 273 and keyinit == 0 and step < 2:
+            if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP or event.type == pygame.MOUSEBUTTONDOWN) and keyinit == 0 and step < 2:
 
                 keyinit = 1
                 jumpsound.play(0)
@@ -404,7 +404,7 @@ class game:
 
                 # print "help"
 
-            if event.type == pygame.KEYUP and event.key == 273 and keyinit == 1:
+            if (event.type == pygame.KEYUP and event.key == pygame.K_UP or event.type == pygame.MOUSEBUTTONDOWN) and keyinit == 1:
                 keyinit = 0
 
                 # stickgrow.stop()
