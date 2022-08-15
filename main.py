@@ -274,6 +274,54 @@ class game:
                 # totaltime+=timer.tick()
                 if event.type == pygame.QUIT:
                     crashed = True
+                # Keyboard Hit check
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP or event.type == pygame.MOUSEBUTTONDOWN) and keyinit == 0 and step < 2:
+
+                    keyinit = 1
+                    jumpsound.play(0)
+
+                    # print "hl"
+                    # print step
+
+                    if(step == 0):  # First jump
+                        run = 0
+                        stopf = 0
+                        stop = 0
+                        jumpf = jump = 1
+                        fall = 0
+                        fallf = 0
+                        factor = -1
+                        initialvelocity = 8
+                        time = time1 = 0
+
+                    elif(step == 1):  # Second Jump
+                        jump = 1
+
+                        initialvelocity = 7
+                        time = 0
+                        time1 = 0
+                        chk = False
+
+                        # jumpf=1
+                        factor = -1
+                        # fallf=0
+                        # flag1=0
+                        # time=0
+                        # inity=sonicy
+                        # initialvelocity=-velocity
+                        # distance=distance/2
+
+                    step += 1
+
+                    # print "help"
+
+                if (event.type == pygame.KEYUP and event.key == pygame.K_UP or event.type == pygame.MOUSEBUTTONDOWN) and keyinit == 1:
+                    keyinit = 0
+
+                    # stickgrow.stop()
+                    # kick.stop()
+                    # kick.play()
+
 
             mos_x, mos_y = pygame.mouse.get_pos()
 
@@ -361,56 +409,6 @@ class game:
                 #print (accf*(time/100))
                 # sonicy+=factor*velocity
                 sonicy = sonicy + velocity
-
-            # Keyboard Hit check
-
-            if (event.type == pygame.KEYDOWN and event.key == pygame.K_UP or event.type == pygame.MOUSEBUTTONDOWN) and keyinit == 0 and step < 2:
-
-                keyinit = 1
-                jumpsound.play(0)
-
-                # print "hl"
-                # print step
-
-                if(step == 0):  # First jump
-                    run = 0
-                    stopf = 0
-                    stop = 0
-                    jumpf = jump = 1
-                    fall = 0
-                    fallf = 0
-                    factor = -1
-                    initialvelocity = 8
-                    time = time1 = 0
-
-                elif(step == 1):  # Second Jump
-                    jump = 1
-
-                    initialvelocity = 7
-                    time = 0
-                    time1 = 0
-                    chk = False
-
-                    # jumpf=1
-                    factor = -1
-                    # fallf=0
-                    # flag1=0
-                    # time=0
-                    # inity=sonicy
-                    # initialvelocity=-velocity
-                    # distance=distance/2
-
-                step += 1
-
-                # print "help"
-
-            if (event.type == pygame.KEYUP and event.key == pygame.K_UP or event.type == pygame.MOUSEBUTTONDOWN) and keyinit == 1:
-                keyinit = 0
-
-                # stickgrow.stop()
-                # kick.stop()
-                # kick.play()
-
             # print stop
 
             if(run == 1):
