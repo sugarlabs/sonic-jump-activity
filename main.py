@@ -77,6 +77,11 @@ class game:
             # gameicon=pygame.image.load('images/icon.png')
             # pygame.display.set_icon(gameicon)
 
+        
+        width = 490
+        startx = (info.current_w - width) / 2
+        endx = (info.current_w + width) / 2
+
         sprite = pygame.image.load("images/sprite.png")
 
         # Variable Initialization
@@ -197,8 +202,8 @@ class game:
 
         thick3 = 250
 
-        platx = 350
-        pillar1x = 840 + pillardist
+        platx = startx
+        pillar1x = endx + pillardist
         pillar2x = (pillar1x + thick1) + pillardist
 
         pillardist = array[randint(0, 1)]
@@ -236,10 +241,10 @@ class game:
         pillartouchthick = pillar2ndthick
 
         pillarbegin = platx
-        pillarbeginthick = 490
+        pillarbeginthick = width
 
         flag2 = False
-        sonicx = 450
+        sonicx = startx + 100
         basetouch = False
         fallflag = False
 
@@ -454,7 +459,7 @@ class game:
                 lastcolor = color1
                 lastheight = height1
 
-            if(pillar1x < 350 - thick1):
+            if(pillar1x < startx - thick1):
                 pillar1x = pillar3rd + pillar3thick + array[randint(0, 3)]
 
                 thick1 = randint(180, 250)
@@ -466,7 +471,7 @@ class game:
                 while(height1 == lastheight or (lastheight == 400 and height1 == 200) or (lastheight == 200 and height1 == 400)):
                     height1 = heightlist[randint(0, 4)]
 
-            if(pillar2x <= 350 - thick2):
+            if(pillar2x <= startx - thick2):
                 pillar2x = pillar3rd + pillar3thick + array[randint(0, 3)]
                 # height2=heightlist[randint(0,4)]
                 thick2 = randint(180, 250)
@@ -478,7 +483,7 @@ class game:
                 while(height2 == lastheight or (lastheight == 400 and height2 == 200) or (lastheight == 200 and height2 == 400)):
                     height2 = heightlist[randint(0, 4)]
 
-            if(pillar3x <= 350 - thick3):
+            if(pillar3x <= startx - thick3):
                 pillar3x = pillar3rd + pillar3thick + array[randint(0, 3)]
                 # height3=heightlist[randint(0,4)]
                 thick3 = randint(180, 250)
@@ -490,11 +495,11 @@ class game:
                 while(height3 == lastheight or (lastheight == 400 and height3 == 200) or (lastheight == 200 and height3 == 400)):
                     height3 = heightlist[randint(0, 4)]
 
-            if(platx + 490 < sonicx - 90):
-                platx = 900
+            if(platx + width < sonicx - 90):
+                platx = info.current_w
                 pillarbegin = 900
 
-            if(platx >= -490 and platx < 840):
+            if(platx >= -width and platx < endx):
                 platx -= speed
 
             pillar1x -= speed
@@ -505,31 +510,31 @@ class game:
 
             # print pillar1x
 
-            pygame.draw.rect(gameDisplay, colorp, (platx, 454, 490, 768))
+            pygame.draw.rect(gameDisplay, colorp, (platx, 454, width, info.current_h))
 
             pygame.draw.rect(gameDisplay, color1,
                              (pillar1x, 0, thick1, height1))
             pygame.draw.rect(gameDisplay, color1,
-                             (pillar1x, height1 + gap, thick1, 768))
+                             (pillar1x, height1 + gap, thick1, info.current_h))
 
             pygame.draw.rect(gameDisplay, color2,
                              (pillar2x, 0, thick2, height2))
             pygame.draw.rect(gameDisplay, color2,
-                             (pillar2x, height2 + gap, thick2, 768))
+                             (pillar2x, height2 + gap, thick2, info.current_h))
 
             pygame.draw.rect(gameDisplay, color3,
                              (pillar3x, 0, thick3, height3))
             pygame.draw.rect(gameDisplay, color3,
-                             (pillar3x, height3 + gap, thick3, 768))
+                             (pillar3x, height3 + gap, thick3, info.current_h))
 
             rect1a = pygame.Rect(pillar1x, 0, thick1, height1)
-            rect1b = pygame.Rect(pillar1x, height1 + gap, thick1, 768)
+            rect1b = pygame.Rect(pillar1x, height1 + gap, thick1, info.current_h)
 
             rect2a = pygame.Rect(pillar2x, 0, thick2, height2)
-            rect2b = pygame.Rect(pillar2x, height2 + gap, thick2, 768)
+            rect2b = pygame.Rect(pillar2x, height2 + gap, thick2, info.current_h)
 
             rect3a = pygame.Rect(pillar3x, 0, thick3, height3)
-            rect3b = pygame.Rect(pillar3x, height3 + gap, thick3, 768)
+            rect3b = pygame.Rect(pillar3x, height3 + gap, thick3, info.current_h)
 
             # Pillar Touch test
 
@@ -538,7 +543,7 @@ class game:
             # Extract the sprite you want
             draw_me = sprite.subsurface(sprite.get_clip())
 
-            # backdrop = pygame.Rect(0,0,350,768) #Create the whole screen so
+            # backdrop = pygame.Rect(0,0,startx,info.current_h) #Create the whole screen so
             # you can draw on it
 
             draw_me = pygame.transform.scale(
@@ -556,23 +561,23 @@ class game:
             # Current Scores Display
 
             scores = font4.render(str(score), 1, black)
-            gameDisplay.blit(scores, (790, 20))
+            gameDisplay.blit(scores, (endx - 50, 20))
 
             # 2nd pillar test
 
-            if(pillar1x < 650 and pillar1x >= -thick1):
+            if(pillar1x < startx + 300 and pillar1x >= -thick1):
                 pillarcolor = color1
                 pillar2nd = pillar1x
                 pillar2ndthick = thick1
                 pillar2ndheight = height1
 
-            if(pillar2x < 650 and pillar2x >= -thick2):
+            if(pillar2x < startx + 300 and pillar2x >= -thick2):
                 pillarcolor = color2
                 pillar2nd = pillar2x
                 pillar2ndthick = thick2
                 pillar2ndheight = height2
 
-            if(pillar3x < 650 and pillar3x >= -thick3):
+            if(pillar3x < startx + 300 and pillar3x >= -thick3):
                 pillarcolor = color3
                 pillar2nd = pillar3x
                 pillar2ndthick = thick3
@@ -597,11 +602,11 @@ class game:
             pillar_rect1 = pygame.Rect(
                 pillar2nd, 0, pillar2ndthick, pillar2ndheight)
             pillar_rect2 = pygame.Rect(pillar2nd, pillar2ndheight + gap,
-                                       pillar2ndthick, 768)
+                                       pillar2ndthick, info.current_h)
 
             # Pillar side front upper collision
 
-            if(sonicy + draw_me.get_height() > 768 or (sonic_rect.colliderect(pillar_rect1) == True) or
+            if(sonicy + draw_me.get_height() > info.current_h or (sonic_rect.colliderect(pillar_rect1) == True) or
 
                     (sonic_rect.colliderect(pillar_rect2) == True and
                      bottomright[0] <= pillar2nd + 5)):
@@ -697,8 +702,8 @@ class game:
 
                     thick3 = 250
 
-                    platx = 350
-                    pillar1x = 840 + pillardist
+                    platx = startx
+                    pillar1x = endx + pillardist
                     pillar2x = (pillar1x + thick1) + pillardist
 
                     pillardist = array[randint(0, 1)]
@@ -736,10 +741,10 @@ class game:
                     pillartouchthick = pillar2ndthick
 
                     pillarbegin = platx
-                    pillarbeginthick = 490
+                    pillarbeginthick = width
 
                     flag2 = False
-                    sonicx = 450
+                    sonicx = startx + 100
                     basetouch = False
                     fallflag = False
 
@@ -776,7 +781,7 @@ class game:
 
             # Platform condition
 
-            if(bottomleft[0] > platx and bottomleft[0] <= platx + 490):
+            if(bottomleft[0] > platx and bottomleft[0] <= platx + width):
 
                 if(bottomleft[1] > 454):
 
@@ -800,7 +805,7 @@ class game:
             # Fall from platform
 
             if(fallflag == False and (pillar2nd + pillar2ndthick < sonicx or
-                                      platx + 490 < sonicx) and run == 1):
+                                      platx + width < sonicx) and run == 1):
 
                 fallf = 1
                 fall = 1
@@ -826,12 +831,8 @@ class game:
 
             # BLACK RECTANGLES DISPLAY
 
-            pygame.draw.line(gameDisplay, black, (350, 0), (350, 768), 1)
-            pygame.draw.line(gameDisplay, black, (840, 0), (840, 768), 1)
-
-            pygame.draw.rect(gameDisplay, black, (0, 0, 350, 768))
-
-            pygame.draw.rect(gameDisplay, black, (840, 0, 693, 768))
+            pygame.draw.rect(gameDisplay, black, (0, 0, startx, info.current_h))
+            pygame.draw.rect(gameDisplay, black, (endx, 0, startx, info.current_h))
 
             pygame.display.update()
             clock.tick(60)

@@ -106,7 +106,9 @@ class welcomescreen:
             pygame.display.set_caption("Sonic Jump")
             # gameicon=pygame.image.load('data/images/icon.png')
             # pygame.display.set_icon(gameicon)
-
+        width = 490
+        startx = (info.current_w - width) / 2
+        endx = (info.current_w + width) / 2
         back = pygame.image.load("images/welcome.png")
         # fruit=pygame.transform.scale(fruit,(40,40))
 
@@ -145,37 +147,35 @@ class welcomescreen:
 
             gameDisplay.fill(white)
             # gameDisplay.blit(back,(350,0))
-
+            scale_fac = info.current_h / 768
             gameDisplay.blit(pygame.transform.scale(
-                sonic, (100, 150)), (420, 50))
+                sonic, (100, 150)), (startx + 70, 50*scale_fac))
 
-            gameDisplay.blit(play, (520, 250))
+            gameDisplay.blit(play, (startx + 170, 250*scale_fac))
 
             head1 = font1.render("SONIC", 1, (black))
-            gameDisplay.blit(head1, (520, 30))
+            gameDisplay.blit(head1, (startx + 170, 30*scale_fac))
 
             head2 = font1.render("JUMP", 1, (black))
-            gameDisplay.blit(head2, (520, 100))
+            gameDisplay.blit(head2, (startx + 170, 100*scale_fac))
 
             head3 = font2.render("Use this button ->", 1, (black))
-            gameDisplay.blit(head3, (440, 400))
+            gameDisplay.blit(head3, (startx + 90, 400*scale_fac))
 
-            gameDisplay.blit(button, (650, 380))
+            gameDisplay.blit(button, (startx + 300, 380*scale_fac))
 
             head3 = font2.render("to play the game", 1, (black))
-            gameDisplay.blit(head3, (440, 420))
+            gameDisplay.blit(head3, (startx + 90, 420*scale_fac))
 
             # left and right black background patches
 
-            pygame.draw.rect(gameDisplay, black, (0, 0, 350, 768))
-
-            pygame.draw.rect(gameDisplay, black, (840, 0, 693, 768))
-
+            pygame.draw.rect(gameDisplay, black, (0, 0, startx, info.current_h))
+            pygame.draw.rect(gameDisplay, black, (endx, 0, startx, info.current_h))
             # Play Button
 
-            if play.get_rect(center=(520 + (play.get_width() / 2), 250 + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
+            if play.get_rect(center=(startx + 170 + (play.get_width() / 2), 250*scale_fac + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
                 gameDisplay.blit(pygame.transform.scale(
-                    play, (play.get_width() + 4, play.get_height() + 4)), (520 - 2, 250 - 2))
+                    play, (play.get_width() + 4, play.get_height() + 4)), (startx + 170 - 2, 250*scale_fac - 2))
 
                 if(pygame.mouse.get_pressed())[0] == 1 and press == 0:
                     buttonsound.play(0)

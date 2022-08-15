@@ -106,6 +106,9 @@ class scorescreen:
             gameDisplay = pygame.display.set_mode(
                 (info.current_w, info.current_h))
 
+        width = 490
+        startx = (info.current_w - width) / 2
+        endx = (info.current_w + width) / 2
         back = pygame.image.load("images/over.png")
         home = pygame.transform.scale(
             pygame.image.load("images/home.png"), (160, 60))
@@ -160,30 +163,30 @@ class scorescreen:
 
             gameDisplay.fill(white)
             gameDisplay.blit(pygame.transform.scale(
-                back, (490, 768)), (350, 0))
+                back, (width, info.current_h)), (startx, 0))
 
             scores = font2.render(str(score), 1, black)
 
-            gameDisplay.blit(scores, (560, 250))
+            gameDisplay.blit(scores, (startx + 210, 0.32 * info.current_h))
 
             if(scoreflag == 1):
                 maxscores = font2.render(str(maxscore) + "  NEW!", 1, red)
             else:
                 maxscores = font2.render(str(maxscore), 1, black)
 
-            gameDisplay.blit(maxscores, (560, 325))
+            gameDisplay.blit(maxscores, (startx + 210, 0.42 * info.current_h))
 
-            gameDisplay.blit(home, (430, 450))
+            gameDisplay.blit(home, (startx + 80, 0.6 * info.current_h))
 
-            gameDisplay.blit(play, (620, 450))
+            gameDisplay.blit(play, (startx + 270, 0.6 * info.current_h))
 
             # GAME START
 
             # Home button
 
-            if home.get_rect(center=(430 + (home.get_width() / 2), 450 + (home.get_height() / 2))).collidepoint(mos_x, mos_y):
+            if home.get_rect(center=(startx + 80 + (home.get_width() / 2), 0.6 * info.current_h + (home.get_height() / 2))).collidepoint(mos_x, mos_y):
                 gameDisplay.blit(pygame.transform.scale(
-                    home, (home.get_width() + 4, home.get_height() + 4)), (430 - 2, 450 - 2))
+                    home, (home.get_width() + 4, home.get_height() + 4)), (startx + 80 - 2, 0.6 * info.current_h - 2))
 
                 if(pygame.mouse.get_pressed())[0] == 1 and press == 0:
                     buttonsound.play(0)
@@ -191,9 +194,9 @@ class scorescreen:
 
             # Play Button
 
-            if play.get_rect(center=(620 + (play.get_width() / 2), 450 + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
+            if play.get_rect(center=(startx + 270 + (play.get_width() / 2), 0.6 * info.current_h + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
                 gameDisplay.blit(pygame.transform.scale(
-                    play, (play.get_width() + 4, play.get_height() + 4)), (620 - 2, 450 - 2))
+                    play, (play.get_width() + 4, play.get_height() + 4)), (startx + 270 - 2, 0.6 * info.current_h - 2))
 
                 if(pygame.mouse.get_pressed())[0] == 1 and press == 0:
 
@@ -207,10 +210,8 @@ class scorescreen:
 
             # left and right black background patches
 
-            pygame.draw.rect(gameDisplay, black, (0, 0, 350, 768))
-
-            pygame.draw.rect(gameDisplay, black, (840, 0, 693, 768))
-
+            pygame.draw.rect(gameDisplay, black, (0, 0, startx, info.current_h))
+            pygame.draw.rect(gameDisplay, black, (endx, 0, startx, info.current_h))
             pygame.display.update()
             clock.tick(60)
 
