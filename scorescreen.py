@@ -201,7 +201,7 @@ class scorescreen:
                     return 1
 
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == 273:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
                     buttonsound.play(0)
                     return 1
 
