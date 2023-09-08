@@ -73,6 +73,10 @@ fruitscore=0
 
 class welcomescreen:
 
+    def __init__(self):
+        self.step = 0
+        self.showing_help = False
+
     def run(self, gameDisplay):
 
         pygame.init()
@@ -90,9 +94,6 @@ class welcomescreen:
         timer = pygame.time.Clock()
 
         crashed = False
-        disp_width = 600
-        disp_height = 600
-
         press = 0
 
         info = pygame.display.Info()
@@ -107,9 +108,17 @@ class welcomescreen:
             # gameicon=pygame.image.load('data/images/icon.png')
             # pygame.display.set_icon(gameicon)
         width = 490
-        startx = (info.current_w - width) / 2
-        endx = (info.current_w + width) / 2
-        back = pygame.image.load("images/welcome.png")
+        startx = (info.current_w - width) // 2
+        endx = (info.current_w + width) // 2
+        background = pygame.image.load("images/home-bg.jpg")
+        background = pygame.transform.scale(background,
+                                            (width, width * (800 // 480)))
+
+        pillar_width = width // 5
+        pillar_height = info.current_h // 3
+        pillar = pygame.Rect(startx + width // 2 - pillar_width // 2,
+                             info.current_h - pillar_height,
+                             pillar_width, pillar_height)
         # fruit=pygame.transform.scale(fruit,(40,40))
 
         # scoreplate.set_alpha(100)
@@ -126,10 +135,36 @@ class welcomescreen:
         play = pygame.transform.scale(
             pygame.image.load("images/play.png"), (160, 60))
 
-        button = pygame.image.load("images/button.png")
+        help_btn_radius = (width * 13) // 100
+        help_btn_color = (225, 225, 235)
+        help_btn_text = font3.render("?", True, black)
+        help_btn = pygame.Rect(startx + 13, 13,
+                               help_btn_radius,
+                               help_btn_radius)
+
+        howtoplay = pygame.image.load("images/howtoplay.png")
+        howtoplay = pygame.transform.scale(howtoplay, (width, info.current_h))
+
         buttonsound = pygame.mixer.Sound("sound/sound-button.ogg")
 
-        # GAME LOOP BEGINS !!!
+        sonic1 = pygame.image.load("images/sonic.png")
+        t = sonic1.get_rect()
+        sonic1 = pygame.transform.scale(sonic1,
+                                        (50, 50 * (t.height // t.width)))
+        sonic1 = pygame.transform.flip(sonic1, True, False)
+
+        def get_sonic_pos():
+            if abs(self.step) < width / 8:
+                self.step += 3
+            elif abs(self.step) < width / 4:
+                self.step += 4
+            else:
+                self.step += 5
+            if self.step < -width // 2 or self.step > width // 2:
+                self.step = -width // 2
+            x = startx + width / 2 + self.step - sonic1.get_rect().width / 2
+            y = info.current_h - pillar.height - (abs(self.step) * 100) ** 0.5 - sonic1.get_rect().height
+            return (x, y)
 
         while not crashed:
             # Gtk events
@@ -146,40 +181,67 @@ class welcomescreen:
             # print event
 
             gameDisplay.fill(white)
-            # gameDisplay.blit(back,(350,0))
+            gameDisplay.blit(background,
+                             (startx, info.current_h - background.get_rect().height))
+
+            pygame.draw.rect(gameDisplay, (61, 104, 255), pillar)
+
+            gameDisplay.blit(sonic1, get_sonic_pos())
+
             scale_fac = info.current_h / 768
             gameDisplay.blit(pygame.transform.scale(
-                sonic, (100, 150)), (startx + 70, 50*scale_fac))
+                sonic, (100, 150)), (startx + 70, 80 * scale_fac))
 
-            gameDisplay.blit(play, (startx + 170, 250*scale_fac))
+            gameDisplay.blit(play, (startx + 170, 280*scale_fac))
 
             head1 = font1.render("SONIC", 1, (black))
-            gameDisplay.blit(head1, (startx + 170, 30*scale_fac))
+            gameDisplay.blit(head1, (startx + 170, 60*scale_fac))
 
             head2 = font1.render("JUMP", 1, (black))
-            gameDisplay.blit(head2, (startx + 170, 100*scale_fac))
-
-            head3 = font2.render("Use this button ->", 1, (black))
-            gameDisplay.blit(head3, (startx + 90, 400*scale_fac))
-
-            gameDisplay.blit(button, (startx + 300, 380*scale_fac))
-
-            head3 = font2.render("to play the game", 1, (black))
-            gameDisplay.blit(head3, (startx + 90, 420*scale_fac))
+            gameDisplay.blit(head2, (startx + 170, 130*scale_fac))
 
             # left and right black background patches
-
             pygame.draw.rect(gameDisplay, black, (0, 0, startx, info.current_h))
             pygame.draw.rect(gameDisplay, black, (endx, 0, startx, info.current_h))
+
+            # Help Button
+            hover_scaleup = 1.1 if help_btn.collidepoint(mos_x, mos_y) else 1
+            help_text_rect = help_btn_text.get_rect()
+
+            pygame.draw.circle(gameDisplay, help_btn_color,
+                               help_btn.center,
+                               int(help_btn.w * hover_scaleup / 2))
+
+            help_txt_draw = pygame.transform.scale(help_btn_text,
+                                                   (int(help_text_rect.w * hover_scaleup),
+                                                    int(help_text_rect.h * hover_scaleup))) # if hovered, grow '?'
+
+            help_text_rect = help_txt_draw.get_rect()
+            gameDisplay.blit(help_txt_draw,
+                            (help_btn.centerx - help_text_rect.w // 2,
+                             help_btn.centery - help_text_rect.h // 2))
+
+            # Hide help
+            if self.showing_help and (pygame.mouse.get_pressed())[0] == 1 and press == 0:
+                self.showing_help = False
+
+            # Help Button Action
+            if help_btn.collidepoint(mos_x, mos_y) and (pygame.mouse.get_pressed())[0] == 1 and press == 0 and not self.showing_help:
+                self.showing_help = True
+
             # Play Button
 
-            if play.get_rect(center=(startx + 170 + (play.get_width() / 2), 250*scale_fac + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
-                gameDisplay.blit(pygame.transform.scale(
-                    play, (play.get_width() + 4, play.get_height() + 4)), (startx + 170 - 2, 250*scale_fac - 2))
-
-                if(pygame.mouse.get_pressed())[0] == 1 and press == 0:
+            if play.get_rect(center=(startx + 170 + (play.get_width() / 2),
+                                     280*scale_fac + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
+                gameDisplay.blit(pygame.transform.scale(play, (play.get_width() + 4, play.get_height() + 4)),
+                                                        (startx + 170 - 2, 280*scale_fac - 2))
+                if(pygame.mouse.get_pressed())[0] == 1 and press == 0 and not self.showing_help:
                     buttonsound.play(0)
                     return
+
+            # Show Help
+            if self.showing_help:
+                gameDisplay.blit(howtoplay, (startx, 0))
 
             pygame.display.update()
             clock.tick(60)
