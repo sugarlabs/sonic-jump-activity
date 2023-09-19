@@ -154,15 +154,15 @@ class welcomescreen:
         sonic1 = pygame.transform.flip(sonic1, True, False)
 
         def get_sonic_pos():
-            if abs(self.step) < width / 8:
+            if abs(self.step) < width // 8:
                 self.step += 3
-            elif abs(self.step) < width / 4:
+            elif abs(self.step) < width // 4:
                 self.step += 4
             else:
                 self.step += 5
             if self.step < -width // 2 or self.step > width // 2:
                 self.step = -width // 2
-            x = startx + width / 2 + self.step - sonic1.get_rect().width / 2
+            x = startx + width // 2 + self.step - sonic1.get_rect().width // 2
             y = info.current_h - pillar.height - (abs(self.step) * 100) ** 0.5 - sonic1.get_rect().height
             return (x, y)
 
@@ -188,7 +188,7 @@ class welcomescreen:
 
             gameDisplay.blit(sonic1, get_sonic_pos())
 
-            scale_fac = info.current_h / 768
+            scale_fac = info.current_h // 768
             gameDisplay.blit(pygame.transform.scale(
                 sonic, (100, 150)), (startx + 70, 80 * scale_fac))
 
@@ -210,7 +210,7 @@ class welcomescreen:
 
             pygame.draw.circle(gameDisplay, help_btn_color,
                                help_btn.center,
-                               int(help_btn.w * hover_scaleup / 2))
+                               int(help_btn.w * hover_scaleup // 2))
 
             help_txt_draw = pygame.transform.scale(help_btn_text,
                                                    (int(help_text_rect.w * hover_scaleup),
@@ -231,8 +231,8 @@ class welcomescreen:
 
             # Play Button
 
-            if play.get_rect(center=(startx + 170 + (play.get_width() / 2),
-                                     280*scale_fac + (play.get_height() / 2))).collidepoint(mos_x, mos_y):
+            if play.get_rect(center=(startx + 170 + (play.get_width() // 2),
+                                     280*scale_fac + (play.get_height() // 2))).collidepoint(mos_x, mos_y):
                 gameDisplay.blit(pygame.transform.scale(play, (play.get_width() + 4, play.get_height() + 4)),
                                                         (startx + 170 - 2, 280*scale_fac - 2))
                 if(pygame.mouse.get_pressed())[0] == 1 and press == 0 and not self.showing_help:
