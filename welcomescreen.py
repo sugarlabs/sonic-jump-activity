@@ -226,7 +226,9 @@ class welcomescreen:
                 self.showing_help = False
 
             # Help Button Action
-            if help_btn.collidepoint(mos_x, mos_y) and (pygame.mouse.get_pressed())[0] == 1 and press == 0 and not self.showing_help:
+            if help_btn.collidepoint(mos_x, mos_y) and \
+               (pygame.mouse.get_pressed())[0] == 1 and \
+               press == 0 and not self.showing_help:
                 self.showing_help = True
 
             # Play Button
