@@ -148,9 +148,9 @@ class welcomescreen:
         buttonsound = pygame.mixer.Sound("sound/sound-button.ogg")
 
         sonic1 = pygame.image.load("images/sonic.png")
-        t = sonic1.get_rect()
+        sonic1_rect = sonic1.get_rect()
         sonic1 = pygame.transform.scale(sonic1,
-                                        (50, 50 * (t.height // t.width)))
+                                        (50, 50 * (sonic1_rect.height // sonic1_rect.width)))
         sonic1 = pygame.transform.flip(sonic1, True, False)
 
         def get_sonic_pos():
