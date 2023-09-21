@@ -188,7 +188,7 @@ class welcomescreen:
 
             gameDisplay.blit(sonic1, get_sonic_pos())
 
-            scale_fac = info.current_h // 768
+            scale_fac = info.current_h / 768
             gameDisplay.blit(pygame.transform.scale(
                 sonic, (100, 150)), (startx + 70, 80 * scale_fac))
 
