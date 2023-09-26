@@ -1,6 +1,6 @@
 [Activity]
 name = Sonic Jump
-activity_version = 5
+activity_version = 6
 bundle_id = org.sugarlabs.sonicjump
 icon = sonic
 exec = sugar-activity3 activity.Activity
