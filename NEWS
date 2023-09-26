@@ -1,0 +1,8 @@
+6
+
+* Remove floor divison in scale_fac (Riya Jain)
+* Correct indentation of if condition of help button action (Riya Jain)
+* Help button action condition pep8 compliant (Riya Jain)
+* change division to floor division (Riya Jain)
+* Redesigned welcomescreen and added help button (Riya Jain)
+* Update sugargame to fix arrow key (Dimitris Mylonas)
